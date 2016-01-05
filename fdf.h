@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:31:54 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/05 13:29:27 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/05 14:58:03 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,14 @@ typedef	struct		s_mat
 	t_float	m23;
 	t_float	m33;
 }					t_mat;
+
+t_vec				vec_new(t_float x, t_float y, t_float z, t_float w);
+t_vec				vec_sub(t_vec a, t_vec b);
+t_vec				vec_add(t_vec a, t_vec b);
+t_vec				vec_mul(t_vec a, t_vec b);
+t_vec				vec_div(t_vec a, t_vec b);
+
+t_float				vec_dot(t_vec a, t_vec b);
+t_vec				vec_cross(t_vec a, t_vec b);
 
 #endif

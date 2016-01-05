@@ -6,12 +6,11 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 13:23:52 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/05 13:38:40 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/05 14:58:20 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdlib.h>
 
 t_vec	vec_new(t_float x, t_float y, t_float z, t_float w)
 {
