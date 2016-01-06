@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:31:54 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/06 11:54:35 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/06 12:48:26 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 
 # define SQRT ft_sqrt_fast
 # define SIN ft_sin_fast
+# define COS ft_cos_fast
+
+# define MIN(a, b) (a > b ? b : a)
+# define MAX(a, b) (a < b ? b : a)
+# define ABS(a) (a < 0 ? -a : a)
+# define FRACT(a) (a - (long)a)
+
 # define PI 3.141592653589793238L
 
 typedef	double		t_float;
@@ -72,5 +79,10 @@ t_float				ft_sqrt_fast(t_float x);
 
 t_mat				mat_new(t_vec r1, t_vec r2, t_vec r3, t_vec r4);
 t_mat				mat_identity(void);
+
+t_float				ft_cos_fast(t_float x);
+t_float				ft_cos_med(t_float x);
+t_float				ft_sin_fast(t_float x);
+t_float				ft_sin_med(t_float x);
 
 #endif

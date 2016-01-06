@@ -6,13 +6,13 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/06 11:44:49 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/06 11:56:08 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/06 13:00:15 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_float		ft_sin_fast(t_float	x)
+t_float		ft_sin_fast(t_float x)
 {
 	t_float	sin;
 
@@ -29,7 +29,7 @@ t_float		ft_sin_fast(t_float	x)
 	return (sin);
 }
 
-t_float		ft_sin_med(t_float	x)
+t_float		ft_sin_med(t_float x)
 {
 	t_float	sin;
 
@@ -40,20 +40,9 @@ t_float		ft_sin_med(t_float	x)
 		while (x > PI)
 			x -= 2 * PI;
 	if (x < 0)
-	{
 		sin = 1.27323954 * x + .405284735 * x * x;
-		if (sin < 0)
-			sin = .225 * (sin * -sin - sin) + sin;
-		else
-			sin = .225 * (sin * sin - sin) + sin;
-	}
 	else
-	{
 		sin = 1.27323954 * x - 0.405284735 * x * x;
-		if (sin < 0)
-			sin = .225 * (sin * -sin - sin) + sin;
-		else
-			sin = .225 * (sin * sin - sin) + sin;
-	}
+	sin = .225 * (sin * ABS(sin) - sin) + sin;
 	return (sin);
 }
