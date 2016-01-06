@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:31:54 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/05 14:58:03 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/06 11:54:35 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,17 @@
 # define FDF_H
 # include <string.h>
 
+# define SQRT ft_sqrt_fast
+# define SIN ft_sin_fast
+# define PI 3.141592653589793238L
+
 typedef	double		t_float;
+
+typedef	union		u_sqrt_util
+{
+	float			f;
+	unsigned long	ul;
+}					t_sqrt_util;
 
 typedef	struct		s_vec
 {
@@ -55,5 +65,12 @@ t_vec				vec_div(t_vec a, t_vec b);
 
 t_float				vec_dot(t_vec a, t_vec b);
 t_vec				vec_cross(t_vec a, t_vec b);
+t_float				vec_lensq(t_vec a);
+t_vec				vec_norm(t_vec a);
+
+t_float				ft_sqrt_fast(t_float x);
+
+t_mat				mat_new(t_vec r1, t_vec r2, t_vec r3, t_vec r4);
+t_mat				mat_identity(void);
 
 #endif
