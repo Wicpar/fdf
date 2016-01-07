@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:31:54 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/06 19:20:51 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/07 12:58:19 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define MIN(a, b) (a > b ? b : a)
 # define MAX(a, b) (a < b ? b : a)
 # define ABS(a) (a < 0 ? -a : a)
+# define SIGN(a) (a < 0 ? -1 : 1)
+# define CLAMP(a, x, y) (MAX(MIN(a, y), x))
 # define FLOOR(a) ((long)(a))
 # define CEIL(a) (FLOOR(a) == a ? FLOOR(a) : FLOOR(a) + 1)
 # define FRACT(a) (a - FLOOR(a))
@@ -67,11 +69,20 @@ typedef	struct		s_mat
 	t_float	m33;
 }					t_mat;
 
+typedef	struct		s_buffer
+{
+	void	*buf;
+	size_t	w;
+	size_t	h;
+	size_t	typesize;
+}					t_buffer;
+
 typedef	struct		s_params
 {
-	t_vec	window;
-	long	frame;
-	char	*file;
+	t_vec		window;
+	long		frame;
+	char		*file;
+	t_buffer	*vertices;
 }					t_params;
 
 typedef	struct		s_vertex
@@ -83,8 +94,14 @@ typedef	struct		s_vertex
 typedef	struct		s_vertex_param
 {
 	t_vertex	lerp;
+	t_vec		worldpos;
 	t_params	params;
 }					t_vertex_param;
+
+extern void			*g_mlx_core;
+extern void			*g_mlx_window_main;
+extern t_params		g_params;
+extern t_mat		g_camera;
 
 void				puterr(int colored, char *text);
 
@@ -104,9 +121,28 @@ t_float				ft_sqrt_fast(t_float x);
 t_mat				mat_new(t_vec r1, t_vec r2, t_vec r3, t_vec r4);
 t_mat				mat_identity(void);
 
+t_vec				matvec_mul(t_mat mat, t_vec vec);
+
 t_float				ft_cos_fast(t_float x);
 t_float				ft_cos_med(t_float x);
 t_float				ft_sin_fast(t_float x);
 t_float				ft_sin_med(t_float x);
+
+t_vec				col_torgba(int color);
+int					col_fromrgba(t_vec rgba);
+t_vec				col_lerprgba(t_vec cola, t_vec colb, t_float alpha);
+int					col_lerp(int cola, int colb, t_float alpha);
+
+t_vertex			vert_lerp(t_vertex a, t_vertex b, t_float alpha);
+
+void				draw_line(int (*shader)(t_vertex_param), t_vertex a, t_vertex b);
+
+t_buffer			*buff_new(size_t w, size_t h, size_t typesize);
+void				*buff_get(t_buffer *buf, size_t x, size_t y);
+void				buff_set(t_buffer *buf, size_t x, size_t y, void *val);
+void				buff_del(t_buffer **buf);
+
+t_buffer			*file_to_strbuff(char *file);
+t_buffer			*strbuff_to_vertbuff(t_buffer *buf);
 
 #endif

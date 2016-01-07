@@ -6,7 +6,7 @@
 #    By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/19 14:09:58 by apachkof          #+#    #+#              #
-#    Updated: 2016/01/06 16:09:16 by fnieto           ###   ########.fr        #
+#    Updated: 2016/01/07 13:05:19 by fnieto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS=-Wall -Wextra -Werror
 
 RM=rm -f
 
-SRC=main.c ft_cos.c ft_sin.c ft_sqrt.c matrix.c vector.c vector_complex.c error.c
+SRC=main.c ft_cos.c ft_sin.c ft_sqrt.c matrix.c vector.c vector_complex.c error.c matvec.c color.c line.c map.c vertex.c buffer.c get_next_line.c
 
 LIB= -framework OpenGL -framework AppKit libft/libft.a minilibx_macos/libmlx.a
 
