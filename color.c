@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 08:39:02 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/07 09:00:50 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/08 12:34:45 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int			col_fromrgba(t_vec rgba)
 	int	i;
 
 	i = 0;
-	i += ((int)(CLAMP(rgba.x, 0, 1) * 255) << 16);
-	i += ((int)(CLAMP(rgba.y, 0, 1) * 255) << 8);
-	i += ((int)(CLAMP(rgba.z, 0, 1) * 255) << 0);
-	i += ((int)(CLAMP(rgba.w, 0, 1) * 255) << 24);
+	i += (((int)(CLAMP(rgba.x, 0, 1) * 255)) << 16);
+	i += (((int)(CLAMP(rgba.y, 0, 1) * 255)) << 8);
+	i += (((int)(CLAMP(rgba.z, 0, 1) * 255)) << 0);
+	i += (((int)(CLAMP(rgba.w, 0, 1) * 255)) << 24);
 	return (i);
 }
 

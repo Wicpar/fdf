@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 09:10:38 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/07 10:39:57 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/08 12:50:13 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	draw_line(int (*shader)(t_vertex_param), t_vertex a, t_vertex b)
 {
-	int				i[2];
+	t_float				i[2];
 	t_vertex_param	param;
 	t_vec			v[3];
 	int				sign[2];
@@ -31,7 +31,7 @@ void	draw_line(int (*shader)(t_vertex_param), t_vertex a, t_vertex b)
 	sign[1] = SIGN(v[2].y);
 	while (++i[0] <= i[1])
 	{
-		alpha = (t_float)i[0] / i[1];
+		alpha = (t_float)i[0] / ((t_float)i[1] + 1);
 		param.worldpos = col_lerprgba(a.pos, b.pos, alpha);
 		param.lerp.pos = col_lerprgba(v[0], v[1], alpha);
 		param.lerp.color = col_lerp(a.color, b.color, alpha);

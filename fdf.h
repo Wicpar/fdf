@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:31:54 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/07 12:58:19 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/08 13:24:22 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 # define FLOOR(a) ((long)(a))
 # define CEIL(a) (FLOOR(a) == a ? FLOOR(a) : FLOOR(a) + 1)
 # define FRACT(a) (a - FLOOR(a))
-# define LERP(x, y, a) (y * a + x * (1 - a))
+# define LERP(x, y, a) (y * a + x * (1. - a))
+# define MOD(a, b) (FRACT(a / b) * b)
 
 # define PI 3.141592653589793238L
 

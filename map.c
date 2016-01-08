@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 11:40:11 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/07 13:04:50 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/08 11:38:22 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_list	*file_to_lst(char *file)
 	char		*ln;
 	
 	fd = open(file, O_RDONLY);
+	lst = 0;
 	if (fd < 0)
 		puterr(1, "File not Found or in use /!\\");
 	while (get_next_line(fd, &ln) > 0)
@@ -63,9 +64,9 @@ t_buffer		*file_to_strbuff(char *file)
 	lst[0] = file_to_lst(file);
 	lst[1] = lst[0];
 	i[0] = 0;
-	while (lst[1])
+	while ((lst[1]) != 0)
 	{
-		lst[1] = lst[1]->next;
+		lst[1] = (lst[1])->next;
 		i[0]++;
 	}
 	i[1] = 0;
@@ -89,6 +90,7 @@ t_buffer		*strbuff_to_vertbuff(t_buffer *buf)
 	char		**sep;
 
 	new = buff_new(buf->w, buf->h, sizeof(t_vertex));
+	ft_putendl("b");
 	i[0] = -1;
 	while (++i[0] < buf->h)
 	{
@@ -104,6 +106,7 @@ t_buffer		*strbuff_to_vertbuff(t_buffer *buf)
 			ft_memdel((void**)&sep);
 		}
 	}
+	ft_putendl("b");
 	buff_del(&buf);
 	return (new);
 }
