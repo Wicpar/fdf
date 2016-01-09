@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/09 11:56:32 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/09 14:48:58 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,29 @@ typedef	struct		s_shader_info
 	t_float		i_global_time;
 	t_float		i_time_delta;
 }					t_shader_info;
+
+typedef	struct		s_mat4
+{
+	t_float	m00;
+	t_float	m10;
+	t_float	m20;
+	t_float	m30;
+
+	t_float	m01;
+	t_float	m11;
+	t_float	m21;
+	t_float	m31;
+
+	t_float	m02;
+	t_float	m12;
+	t_float	m22;
+	t_float	m32;
+
+	t_float	m03;
+	t_float	m13;
+	t_float	m23;
+	t_float	m33;
+}					t_mat4;
 
 typedef	struct		s_buffer
 {
@@ -171,6 +194,20 @@ t_vec4				div_vec4_1(t_vec4 a, t_float b);
 t_vec4				mix_vec4_1(t_vec4 a, t_vec4 b, t_float alpha);
 t_vec4				smoothstep_vec4_1(t_float e0, t_float e1, t_vec4 x);
 t_vec4				lerp_vec4_1(t_vec4 a, t_vec4 b, t_float x, t_float max);
+
+t_mat4				mat4(t_vec4 r1, t_vec4 r2, t_vec4 r3, t_vec4 r4);
+t_mat4				mat4_scale(t_vec3 scale);
+t_mat4				mat4_translation(t_vec3 translation);
+t_mat4				mat4_rotation(t_vec3 axis, t_float angle);
+
+extern const t_mat4	g_mat4_identity;
+
+t_mat4				mul_mat4(t_mat4 a, t_mat4 b);
+t_mat4				mul_mat4_1(t_mat4 a, t_float b);
+t_vec4				mul_mat4_vec4(t_mat4 a, t_vec4 b);
+t_vec3				mul_mat4_vec3(t_mat4 a, t_vec3 b);
+
+t_mat4				cam_ortho(t_vec2 lr, t_vec2 tb, t_vec2 nf);
 
 int					encode(t_float r, t_float g, t_float b);
 int					encode_vec3(t_vec3 color);
