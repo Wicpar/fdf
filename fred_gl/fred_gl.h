@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/09 14:48:58 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/09 20:04:34 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define ATAN(x, y)				(PI - atan(y/x) + (x < 0. ? -PI * 2 : PI ))
 # define LERP(a, b, x, max)		(x * (max / (b - a)))
 # define ROUND(a)				(FRACT(a) > 0.5 ? CEIL(a) : FLOOR(a))
+# define OUT(a, min, max)		(a < min || a > max)
+# define SIZE(a, x)				((a + 1.) * (x / 2.))
+# define T(a)					((t_type)a)
 
 # define GL_ALL			0
 # define GL_LEQUAL		-1
@@ -43,19 +46,14 @@
 
 typedef	double		t_float;
 
-typedef	union		u_converter
+typedef	enum		e_interp
 {
-	short			s;
-	unsigned short	us;
-	int				i;
-	unsigned int	ui;
-	long			l;
-	unsigned long	ul;
-	float			f;
-	double			d;
-	char			c;
-	unsigned char	uc;
-}					t_converter;
+	NONE,
+	FLOAT,
+	VEC2,
+	VEC3,
+	VEC4
+}					t_interp;
 
 typedef	struct		s_vec2
 {
@@ -77,15 +75,6 @@ typedef	struct		s_vec4
 	t_float	z;
 	t_float	w;
 }					t_vec4;
-
-typedef	struct		s_shader_info
-{
-	t_vec2		i_frag_coord;
-	t_vec3		i_world_pos;
-	t_vec2		i_resolution;
-	t_float		i_global_time;
-	t_float		i_time_delta;
-}					t_shader_info;
 
 typedef	struct		s_mat4
 {
@@ -110,6 +99,25 @@ typedef	struct		s_mat4
 	t_float	m33;
 }					t_mat4;
 
+typedef	union		u_type
+{
+	short			s;
+	unsigned short	us;
+	int				i;
+	unsigned int	ui;
+	long			l;
+	unsigned long	ul;
+	float			f;
+	double			d;
+	char			c;
+	unsigned char	uc;
+	t_float			tf;
+	void			*v;
+	t_vec2			v2;
+	t_vec3			v3;
+	t_vec4			v4;
+}					t_type;
+
 typedef	struct		s_buffer
 {
 	size_t	w;
@@ -118,16 +126,39 @@ typedef	struct		s_buffer
 	void	*buf;
 }					t_buffer;
 
-typedef	int	(*t_shader)(t_shader_info shader_info);
-typedef	int	(*t_draw_func)(int x, int y, int color);
-
 typedef	struct		s_frame
 {
+	size_t			w;
+	size_t			h;
 	int				clear_undrawn;
 	int				depth_func;
 	t_buffer		*img;
 	t_buffer		*depth;
+	t_buffer		*change;
 }					t_frame;
+
+typedef	struct		s_vertex_attrib
+{
+	t_interp		interpolation;
+	t_type			value;
+}					t_vertex_attrib;
+
+typedef	struct		s_vertex
+{
+	t_vec3				pos;
+	t_vertex_attrib		attributes[8];
+}					t_vertex;
+
+typedef	struct		s_shader_info
+{
+	t_vec2			i_frag_coord;
+	t_vec2			i_resolution;
+	t_float			i_global_time;
+	t_vertex_attrib	i_vertex_attribs[8];
+}					t_shader_info;
+
+typedef	int	(*t_shader)(t_shader_info shader_info);
+typedef	int	(*t_draw_func)(int x, int y, int color);
 
 typedef	struct		s_instance
 {
@@ -135,8 +166,12 @@ typedef	struct		s_instance
 	size_t			h;
 	t_frame			*frame;
 	t_draw_func		drawfn;
-	int				enabled;
 }					t_instance;
+
+void				fred_gl_init(size_t w, size_t h, t_draw_func drawfn);
+
+extern t_instance	*g_instance;
+extern t_float		g_global_time;
 
 t_vec2				vec2(t_float x, t_float y);
 t_vec2				vec2_1(t_float x);
@@ -208,6 +243,16 @@ t_vec4				mul_mat4_vec4(t_mat4 a, t_vec4 b);
 t_vec3				mul_mat4_vec3(t_mat4 a, t_vec3 b);
 
 t_mat4				cam_ortho(t_vec2 lr, t_vec2 tb, t_vec2 nf);
+
+t_buffer			*buffer(size_t w, size_t h, size_t type);
+t_type				buf_read(t_buffer *buf, size_t x, size_t y);
+void				buf_write(t_buffer *buf, size_t x, size_t y, t_type val);
+void				buffer_del(t_buffer **buf);
+
+t_frame				*frame(size_t w, size_t h);
+void				frame_put_pixel(t_frame *f, t_vertex v, t_shader shader);
+void				frame_print(t_frame *f);
+void				frame_del(t_frame **frame);
 
 int					encode(t_float r, t_float g, t_float b);
 int					encode_vec3(t_vec3 color);

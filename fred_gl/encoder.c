@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 18:50:28 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/08 19:16:23 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/09 17:30:27 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			encode_vec4(t_vec4 color)
 {
-	t_converter		val;
+	t_type		val;
 
 	val.ui = 0;
 	val.ui += ROUND(CLAMP(color.w, 0., 1.) * 255);
@@ -29,7 +29,7 @@ int			encode_vec4(t_vec4 color)
 
 int			encode_vec3(t_vec3 color)
 {
-	t_converter		val;
+	t_type		val;
 
 	val.ui = 0;
 	val.ui += ROUND(CLAMP(color.x, 0., 1.) * 255);
@@ -42,7 +42,7 @@ int			encode_vec3(t_vec3 color)
 
 int			encode(t_float r, t_float g, t_float b)
 {
-	t_converter		val;
+	t_type		val;
 
 	val.ui = 0;
 	val.ui += ROUND(CLAMP(r, 0., 1.) * 255);

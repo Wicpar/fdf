@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 19:24:56 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/08 19:42:03 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/09 19:59:46 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			f_to_i(float f)
 {
-	t_converter c;
+	t_type c;
 
 	c.f = f;
 	return (c.i);
@@ -22,7 +22,7 @@ int			f_to_i(float f)
 
 float		i_to_f(int i)
 {
-	t_converter c;
+	t_type c;
 
 	c.i = i;
 	return (c.f);
