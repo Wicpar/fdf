@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fred_gl.c                                          :+:      :+:    :+:   */
+/*   smoothstep_vec2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/08 19:45:30 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/09 11:00:20 by fnieto           ###   ########.fr       */
+/*   Created: 2016/01/08 15:35:49 by fnieto            #+#    #+#             */
+/*   Updated: 2016/01/09 11:42:02 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fred_gl.h"
 
-static t_instance		g_instance;
-
-void		fred_gl_init(size_t w, size_t h, t_draw_func drawfn)
+t_vec2		smoothstep_vec2(t_vec2 e0, t_vec2 e1, t_vec2 x)
 {
-	g_instance.w = w;
-	g_instance.h = h;
-	g_instance.drawfn = drawfn;
-	g_instance.enabled = 1;
+	x.x = SMOOTHSTEP(e0.x, e1.x, x.x);
+	x.y = SMOOTHSTEP(e0.y, e1.y, x.y);
+	return (x);
+}
+
+t_vec2		smoothstep_vec2_1(t_float e0, t_float e1, t_vec2 x)
+{
+	x.x = SMOOTHSTEP(e0, e1, x.x);
+	x.y = SMOOTHSTEP(e0, e1, x.y);
+	return (x);
 }
