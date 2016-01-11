@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 16:04:36 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/11 12:09:33 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/11 18:51:29 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,15 @@ void		frame_print(t_frame *f)
 		{
 			color = buf_read(f->img, x, y).i;
 			drawn = buf_read(f->change, x, y).c;
-			if (drawn)
+			if (drawn || !f->clear_undrawn)
 				g_instance->drawfn(x, y, color);
 			else if (f->clear_undrawn && color)
 			{
 				g_instance->drawfn(x, y, 0);
 				buf_write(f->img, x, y, T(0));
 			}
-			buf_write(f->change, x, y, T(0));
+			if (f->clear_undrawn)
+				buf_write(f->change, x, y, T(0));
 			if (f->depth_func)
 				buf_write(f->depth, x, y, T((t_float)10.));
 		}

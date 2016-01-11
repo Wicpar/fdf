@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/11 12:59:31 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/11 18:46:25 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define SMOOTHSTEP(a, b, x)	(SMSTUTIL(CLAMP((x - a) / (b - a), 0.0, 1.0)))
 # define STEP(edge, x)			(x >= edge)
 # define ATAN(x, y)				(PI - atan(y/x) + (x < 0. ? -PI * 2 : PI ))
-# define LERP(a, b, x, max)		(x * (max / (b - a)))
+# define LERP(a, b, x, max)		(MIX(a, b, x / max))
 # define ROUND(a)				(FRACT(a) > 0.5 ? CEIL(a) : FLOOR(a))
 # define OUT(a, min, max)		(a < min || a >= max)
 # define SIZE(a, x)				((a + 1.) * (x / 2.))
@@ -183,6 +183,10 @@ t_vec2				div_vec2(t_vec2 a, t_vec2 b);
 t_vec2				mix_vec2(t_vec2 a, t_vec2 b, t_vec2 alpha);
 t_vec2				smoothstep_vec2(t_vec2 e0, t_vec2 e1, t_vec2 x);
 t_vec2				lerp_vec2(t_vec2 a, t_vec2 b, t_vec2 x, t_vec2 max);
+t_float				len_sq_vec2(t_vec2 a);
+t_float				len_vec2(t_vec2 a);
+t_float				dst_sq_vec2(t_vec2 a, t_vec2 b);
+t_float				dst_vec2(t_vec2 a, t_vec2 b);
 
 t_vec2				add_vec2_1(t_vec2 a, t_float b);
 t_vec2				sub_vec2_1(t_vec2 a, t_float b);
@@ -202,6 +206,10 @@ t_vec3				div_vec3(t_vec3 a, t_vec3 b);
 t_vec3				mix_vec3(t_vec3 a, t_vec3 b, t_vec3 alpha);
 t_vec3				smoothstep_vec3(t_vec3 e0, t_vec3 b, t_vec3 x);
 t_vec3				lerp_vec3(t_vec3 a, t_vec3 b, t_vec3 x, t_vec3 max);
+t_float				len_sq_vec3(t_vec3 a);
+t_float				len_vec3(t_vec3 a);
+t_float				dst_sq_vec3(t_vec3 a, t_vec3 b);
+t_float				dst_vec3(t_vec3 a, t_vec3 b);
 
 t_vec3				add_vec3_1(t_vec3 a, t_float b);
 t_vec3				sub_vec3_1(t_vec3 a, t_float b);
@@ -221,6 +229,10 @@ t_vec4				div_vec4(t_vec4 a, t_vec4 b);
 t_vec4				mix_vec4(t_vec4 a, t_vec4 b, t_vec4 alpha);
 t_vec4				smoothstep_vec4(t_vec4 e0, t_vec4 e1, t_vec4 x);
 t_vec4				lerp_vec4(t_vec4 a, t_vec4 b, t_vec4 x, t_vec4 max);
+t_float				len_sq_vec4(t_vec4 a);
+t_float				len_vec4(t_vec4 a);
+t_float				dst_sq_vec4(t_vec4 a, t_vec4 b);
+t_float				dst_vec4(t_vec4 a, t_vec4 b);
 
 t_vec4				add_vec4_1(t_vec4 a, t_float b);
 t_vec4				sub_vec4_1(t_vec4 a, t_float b);

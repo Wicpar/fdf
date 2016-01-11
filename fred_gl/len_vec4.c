@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   len_vec4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/05 12:31:54 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/11 18:22:54 by fnieto           ###   ########.fr       */
+/*   Created: 2016/01/11 17:27:51 by fnieto            #+#    #+#             */
+/*   Updated: 2016/01/11 17:53:28 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
-# include <string.h>
 # include "fred_gl.h"
+# include <math.h>
 
-# define PI 3.141592653589793238L
-
-typedef	struct		s_param
+t_float		len_sq_vec4(t_vec4 a)
 {
-	t_vec2		res;
-	char		*file;
-}					t_param;
+	return (a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
+}
 
-extern void			*g_mlx_core;
-extern void			*g_mlx_window_main;
-extern t_mat4		g_camera;
+t_float		len_vec4(t_vec4 a)
+{
+	return (sqrt(len_sq_vec4(a)));
+}
 
-void				puterr(int colored, char *text);
+t_float		dst_sq_vec4(t_vec4 a, t_vec4 b)
+{
+	return (len_sq_vec4(sub_vec4(b, a)));
+}
 
-#endif
+t_float		dst_vec4(t_vec4 a, t_vec4 b)
+{
+	return (sqrt(dst_sq_vec4(a, b)));
+}

@@ -6,44 +6,35 @@
 #    By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/19 14:09:58 by apachkof          #+#    #+#              #
-#    Updated: 2016/01/11 18:26:55 by fnieto           ###   ########.fr        #
+#    Updated: 2016/01/11 17:56:59 by fnieto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME=fdf
+NAME=fred_gl.a
 
 CC=gcc
 
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -O3
 
 RM=rm -f
 
-SRC=main.c error.c get_next_line.c
-
-LIB= -framework OpenGL -framework AppKit libft/libft.a minilibx_macos/libmlx.a fred_gl/fred_gl.a
-
-INCL=-I libft/includes/ -I minilibx_macos/ -I fred_gl/
+SRC=div_vec2.c gl_lines.c mix_vec3.c smoothstep_vec2.c vec3.c add_vec2.c div_vec3.c lerp_vec2.c mix_vec4.c smoothstep_vec3.c vec4.c add_vec3.c div_vec4.c lerp_vec3.c mul_mat4.c smoothstep_vec4.c vertex.c add_vec4.c encoder.c lerp_vec4.c mul_vec2.c sub_vec2.c buffer.c frame.c mul_vec3.c sub_vec3.c converter.c fred_gl.c mat4.c mul_vec4.c sub_vec4.c decoder.c mix_vec2.c projection.c vec2.c len_vec2.c len_vec3.c len_vec4.c
 
 OBJ=$(SRC:.c=.o)
 
-$(NAME): fdf.h
-		make -C libft/
-		make -C fred_gl/
-		make -C minilibx_macos/
-		$(CC) $(CFLAGS) $(INCL) -c $(SRC)
-		$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(INCL) $(LIB)
+INCL=../libft/includes/
 
+$(NAME): fred_gl.h
+		$(CC) $(CFLAGS) -c $(SRC) -I $(INCL)
+		ar rc $(NAME) $(OBJ)
+		ranlib $(NAME)
 
 all: $(NAME)
 
 clean:
-		make -C libft/ clean
-		make -C fred_gl/ clean
 		$(RM) $(OBJ)
 
 fclean: clean
-		make -C libft/ fclean
-		make -C fred_gl/ fclean
 		$(RM) $(NAME)
 
 re: fclean all
