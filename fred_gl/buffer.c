@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 15:56:15 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/09 20:01:00 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/09 20:36:04 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_buffer		*buffer(size_t w, size_t h, size_t type)
 	return (new);
 }
 
-t_type		buf_read(t_buffer *buf, size_t x, size_t y)
+t_type			buf_read(t_buffer *buf, size_t x, size_t y)
 {
 	t_type	new;
 
@@ -46,6 +46,7 @@ void			buf_write(t_buffer *buf, size_t x, size_t y, t_type val)
 {
 	ft_memcpy(buf->buf + (y * buf->w + x) * buf->type, &val, buf->type);
 }
+
 void			buffer_del(t_buffer **buf)
 {
 	t_buffer	*todel;

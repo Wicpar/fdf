@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 16:04:36 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/09 20:05:26 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/11 12:09:33 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void		frame_put_pixel(t_frame *f, t_vertex v, t_shader shader)
 {
 	t_shader_info	i;
 
-	if (OUT(v.pos.x, -1, 1) || OUT(v.pos.y, -1, 1) || OUT(v.pos.z, -1, 1))
+	if (OUT(v.pos.x, 0, f->w) || OUT(v.pos.y, 0, f->w) || OUT(v.pos.z, -1, 1))
 		return ;
 	if (f->depth_func && v.pos.z >
-		buf_read(f->depth, SIZE(v.pos.x, f->w - 1), SIZE(v.pos.y, f->h - 1)).tf)
+		buf_read(f->depth, ROUND(v.pos.x), ROUND(v.pos.y)).tf)
 		return ;
-	i.i_frag_coord = vec2(SIZE(v.pos.x, f->w - 1), SIZE(v.pos.y, f->h - 1));
+	i.i_frag_coord = vec2(ROUND(v.pos.x), ROUND(v.pos.y));
 	i.i_resolution = vec2(f->w, f->h);
 	i.i_global_time = g_global_time;
 	buf_write(f->img, i.i_frag_coord.x, i.i_frag_coord.y, T(shader(i)));
@@ -78,13 +78,14 @@ void		frame_print(t_frame *f)
 			drawn = buf_read(f->change, x, y).c;
 			if (drawn)
 				g_instance->drawfn(x, y, color);
-			else if (color)
+			else if (f->clear_undrawn && color)
 			{
 				g_instance->drawfn(x, y, 0);
 				buf_write(f->img, x, y, T(0));
 			}
 			buf_write(f->change, x, y, T(0));
-			buf_write(f->depth, x, y, T((t_float)10.));
+			if (f->depth_func)
+				buf_write(f->depth, x, y, T((t_float)10.));
 		}
 	}
 }

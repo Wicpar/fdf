@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/09 20:04:34 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/11 12:59:31 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define ATAN(x, y)				(PI - atan(y/x) + (x < 0. ? -PI * 2 : PI ))
 # define LERP(a, b, x, max)		(x * (max / (b - a)))
 # define ROUND(a)				(FRACT(a) > 0.5 ? CEIL(a) : FLOOR(a))
-# define OUT(a, min, max)		(a < min || a > max)
+# define OUT(a, min, max)		(a < min || a >= max)
 # define SIZE(a, x)				((a + 1.) * (x / 2.))
 # define T(a)					((t_type)a)
 
@@ -137,16 +137,16 @@ typedef	struct		s_frame
 	t_buffer		*change;
 }					t_frame;
 
-typedef	struct		s_vertex_attrib
+typedef	struct		s_attrib
 {
 	t_interp		interpolation;
 	t_type			value;
-}					t_vertex_attrib;
+}					t_attrib;
 
 typedef	struct		s_vertex
 {
-	t_vec3				pos;
-	t_vertex_attrib		attributes[8];
+	t_vec3			pos;
+	t_attrib		attributes[8];
 }					t_vertex;
 
 typedef	struct		s_shader_info
@@ -154,7 +154,7 @@ typedef	struct		s_shader_info
 	t_vec2			i_frag_coord;
 	t_vec2			i_resolution;
 	t_float			i_global_time;
-	t_vertex_attrib	i_vertex_attribs[8];
+	t_attrib		i_vertex_attribs[8];
 }					t_shader_info;
 
 typedef	int	(*t_shader)(t_shader_info shader_info);
@@ -244,6 +244,11 @@ t_vec3				mul_mat4_vec3(t_mat4 a, t_vec3 b);
 
 t_mat4				cam_ortho(t_vec2 lr, t_vec2 tb, t_vec2 nf);
 
+t_vertex			vertex(t_vec3 pos, t_attrib attribs[8]);
+t_vertex			vert_lerp(t_vertex a, t_vertex b, t_float x, t_float max);
+t_attrib			a_lerp(t_attrib a, t_attrib b, t_float x, t_float max);
+extern t_attrib		g_attrib_null;
+
 t_buffer			*buffer(size_t w, size_t h, size_t type);
 t_type				buf_read(t_buffer *buf, size_t x, size_t y);
 void				buf_write(t_buffer *buf, size_t x, size_t y, t_type val);
@@ -253,6 +258,9 @@ t_frame				*frame(size_t w, size_t h);
 void				frame_put_pixel(t_frame *f, t_vertex v, t_shader shader);
 void				frame_print(t_frame *f);
 void				frame_del(t_frame **frame);
+
+void				draw_line(t_vertex a, t_vertex b, t_shader s, t_frame *f);
+void				gl_lines(t_vertex **v, size_t **i, t_shader s, t_frame *f);
 
 int					encode(t_float r, t_float g, t_float b);
 int					encode_vec3(t_vec3 color);
