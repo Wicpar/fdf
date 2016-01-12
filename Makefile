@@ -6,7 +6,7 @@
 #    By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/19 14:09:58 by apachkof          #+#    #+#              #
-#    Updated: 2016/01/11 18:26:55 by fnieto           ###   ########.fr        #
+#    Updated: 2016/01/12 11:16:16 by fnieto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME=fdf
 
 CC=gcc
 
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -O3
 
 RM=rm -f
 

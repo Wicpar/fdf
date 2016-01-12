@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/11 18:46:25 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/12 12:18:08 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@
 # define FLOOR(a)				((long)a)
 # define CEIL(a)				(FRACT(a) != 0. ? FLOOR(a + 1) : FLOOR(a))
 # define FRACT(a)				(a - FLOOR(a))
-# define MOD(a, b)				(FRACT(a / b) * b)
+# define MOD(x, y)				(x - y * floor(x/y))
 # define SIGN(a)				(a < 0 ? -1 : 1)
 # define CLAMP(a, min, max)		(MIN(MAX(a, min), max))
 # define MIX(a, b, alpha)		(a * (1 - alpha) + b * alpha)
 # define SMSTUTIL(x)			(x * x * (3.0 - 2.0 * x))
 # define SMOOTHSTEP(a, b, x)	(SMSTUTIL(CLAMP((x - a) / (b - a), 0.0, 1.0)))
 # define STEP(edge, x)			(x >= edge)
-# define ATAN(x, y)				(PI - atan(y/x) + (x < 0. ? -PI * 2 : PI ))
 # define LERP(a, b, x, max)		(MIX(a, b, x / max))
 # define ROUND(a)				(FRACT(a) > 0.5 ? CEIL(a) : FLOOR(a))
 # define OUT(a, min, max)		(a < min || a >= max)
