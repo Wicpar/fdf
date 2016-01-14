@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/14 11:51:30 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/14 20:51:27 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FRED_GL_H
 
 # include <string.h>
+# include "libft.h"
 
 # define ABS(a)					(a < 0 ? -a : a)
 # define MIN(a, b)				(a < b ? a : b)
@@ -268,6 +269,12 @@ void				gl_popmatrix(void);
 void				gl_matrix_mode(int mat_mode);
 t_vertex			gl_transform(t_vertex v);
 
+void				gl_begin(int draw_mode, t_shader s, t_frame *f);
+void				gl_param(t_type value, t_interp interpolation, int index);
+void				gl_vertex(t_vec3 pos);
+void				gl_end(void);
+void				gl_draw_buf(t_list *buf, t_shader s, t_frame *f, int mode);
+
 t_buffer			*buffer(size_t w, size_t h, size_t type);
 t_type				buf_read(t_buffer *buf, size_t x, size_t y);
 void				buf_write(t_buffer *buf, size_t x, size_t y, t_type val);
@@ -279,7 +286,7 @@ void				frame_print(t_frame *f);
 void				frame_del(t_frame **frame);
 
 void				draw_line(t_vertex a, t_vertex b, t_shader s, t_frame *f);
-void				gl_lines(t_vertex **v, size_t **i, t_shader s, t_frame *f);
+void				gl_lines(t_list *v, t_shader s, t_frame *f);
 
 int					encode(t_float r, t_float g, t_float b);
 int					encode_vec3(t_vec3 color);
