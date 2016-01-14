@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/12 12:18:08 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/14 11:51:30 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@
 # define GL_LINES		1
 # define GL_TRIANGLES	2
 # define GL_QUADS		3
+
+# define GL_MODELVIEW 0
+# define GL_PROJECTION 1
 
 typedef	double		t_float;
 
@@ -259,6 +262,11 @@ t_vertex			vertex(t_vec3 pos, t_attrib attribs[8]);
 t_vertex			vert_lerp(t_vertex a, t_vertex b, t_float x, t_float max);
 t_attrib			a_lerp(t_attrib a, t_attrib b, t_float x, t_float max);
 extern t_attrib		g_attrib_null;
+
+void				gl_pushmatrix(t_mat4 matrix);
+void				gl_popmatrix(void);
+void				gl_matrix_mode(int mat_mode);
+t_vertex			gl_transform(t_vertex v);
 
 t_buffer			*buffer(size_t w, size_t h, size_t type);
 t_type				buf_read(t_buffer *buf, size_t x, size_t y);

@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_lstpop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 14:11:58 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/13 19:27:59 by fnieto           ###   ########.fr       */
+/*   Created: 2016/01/12 18:09:28 by fnieto            #+#    #+#             */
+/*   Updated: 2016/01/12 18:18:10 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcat(char *dest, const char *src)
+t_list		*ft_lstpop(t_list **alst)
 {
-	char	*tmp;
+	t_list	*tmp;
+	t_list	*rem;
 
-	tmp = dest;
-	while (*tmp)
-		tmp++;
-	ft_strcpy(tmp, src);
-	return (dest);
+	if (!(*alst))
+		return (0);
+	tmp = *alst;
+	if (!(tmp->next))
+	{
+		*alst = 0;
+		return (tmp);
+	}
+	while (tmp->next->next)
+		tmp = tmp->next;
+	rem = tmp->next;
+	tmp->next = 0;
+	return (rem);
 }

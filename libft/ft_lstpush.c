@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_lstpush.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 14:11:58 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/13 19:27:59 by fnieto           ###   ########.fr       */
+/*   Created: 2016/01/12 18:02:39 by fnieto            #+#    #+#             */
+/*   Updated: 2016/01/12 18:08:28 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcat(char *dest, const char *src)
+void		ft_lstpush(t_list **alst, t_list *new)
 {
-	char	*tmp;
+	t_list *tmp;
 
-	tmp = dest;
-	while (*tmp)
-		tmp++;
-	ft_strcpy(tmp, src);
-	return (dest);
+	if (!(*alst))
+		*alst = new;
+	else
+	{
+		tmp = *alst;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }

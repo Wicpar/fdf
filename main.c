@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/12 12:45:39 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/12 17:15:04 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int			loop(void *param)
 //	b = vertex(vec3(g_params.res.x, MOD(g_global_time * 60, g_instance->frame->h), 0), def);
 //	draw_line(a, b, &uv_shader, g_instance->frame);
 
-	g_global_time += 1. / 60.;
+	g_global_time += PI/12.;
 	frame_print(g_instance->frame);
 	return ((int)param);
 }

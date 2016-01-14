@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_lstfree_ptr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 14:11:58 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/13 19:27:59 by fnieto           ###   ########.fr       */
+/*   Created: 2016/01/13 13:36:22 by fnieto            #+#    #+#             */
+/*   Updated: 2016/01/13 13:38:31 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcat(char *dest, const char *src)
+void		ft_lstfree_ptr(void *ptr, size_t size)
 {
-	char	*tmp;
-
-	tmp = dest;
-	while (*tmp)
-		tmp++;
-	ft_strcpy(tmp, src);
-	return (dest);
+	if (size)
+		ft_memdel(&ptr);
 }
