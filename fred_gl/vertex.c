@@ -6,13 +6,18 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 11:39:59 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/11 17:17:01 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/18 19:13:15 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fred_gl.h"
 
-t_attrib		g_attrib_null = {0, {0}};
+t_attrib		attrib_null(void)
+{
+	static t_attrib		attrib_null = {0, {0}};
+
+	return (attrib_null);
+}
 
 t_vertex		vertex(t_vec3 pos, t_attrib attribs[8])
 {

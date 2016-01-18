@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 14:04:51 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/11 17:17:34 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/18 17:59:58 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_mat4		cam_ortho(t_vec2 lr, t_vec2 tb, t_vec2 nf)
 {
 	t_mat4	new;
 
-	new = g_mat4_identity;
+	new = mat4_identity();
 	new.m00 = 2. / (lr.y - lr.x);
 	new.m11 = 2. / (tb.x - tb.y);
 	new.m22 = -2. / (nf.y - nf.x);

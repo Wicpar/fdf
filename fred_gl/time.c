@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   len_vec4.c                                         :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/11 17:27:51 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/18 15:49:50 by fnieto           ###   ########.fr       */
+/*   Created: 2016/01/18 15:15:48 by fnieto            #+#    #+#             */
+/*   Updated: 2016/01/18 18:01:38 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fred_gl.h"
-#include <math.h>
 
-t_float		len_sq_vec4(t_vec4 a)
+static t_float		time_cont(t_float time, int mode)
 {
-	return (a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
+	static t_float	gtime = 0;
+
+	if (mode == GL_SET)
+		gtime = time;
+	return (gtime);
 }
 
-t_float		len_vec4(t_vec4 a)
+t_float				get_time(void)
 {
-	return (sqrt(len_sq_vec4(a)));
+	return (time_cont(0, GL_GET));
 }
 
-t_float		dst_sq_vec4(t_vec4 a, t_vec4 b)
+void				set_time(t_float time)
 {
-	return (len_sq_vec4(sub_vec4(b, a)));
-}
-
-t_float		dst_vec4(t_vec4 a, t_vec4 b)
-{
-	return (sqrt(dst_sq_vec4(a, b)));
+	time_cont(time, GL_SET);
 }

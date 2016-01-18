@@ -6,33 +6,50 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 19:45:30 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/09 20:39:46 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/18 17:59:28 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fred_gl.h"
 #include "libft.h"
 
-t_instance		*g_instance;
-t_float			g_global_time = 0.;
-
-void		fred_gl_init(size_t w, size_t h, t_draw_func drawfn)
+static t_instance	*inst_cont(t_instance *inst, int mode)
 {
-	if (!g_instance)
+	static t_instance	*instance = 0;
+
+	if (mode == GL_SET)
+		instance = inst;
+	return (instance);
+}
+
+void				fred_gl_init(size_t w, size_t h, t_draw_func drawfn)
+{
+	t_instance *i;
+
+	i = inst_cont(0, GL_GET);
+	if (!i)
 	{
-		g_instance = (t_instance*)ft_memalloc(sizeof(t_instance));
-		if (!g_instance)
+		i = inst_cont((t_instance*)ft_memalloc(sizeof(t_instance)), GL_SET);
+		if (!i)
 			return ;
-		g_instance->w = w;
-		g_instance->h = h;
-		g_instance->drawfn = drawfn;
-		g_instance->frame = frame(w, h);
-		g_global_time = 0.;
+		i->w = w;
+		i->h = h;
+		i->drawfn = drawfn;
+		i->frame = frame(w, h);
 	}
 }
 
-void		fred_gl_deinit(void)
+void				fred_gl_deinit(void)
 {
-	frame_del(&(g_instance->frame));
-	ft_memdel((void**)&g_instance);
+	t_instance	*i;
+
+	i = inst_cont(0, GL_GET);
+	frame_del(&(i->frame));
+	ft_memdel((void**)&i);
+	inst_cont(0, GL_SET);
+}
+
+t_instance			*get_instance(void)
+{
+	return (inst_cont(0, GL_GET));
 }

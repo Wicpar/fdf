@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/12 17:15:04 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/18 23:47:22 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 void		*g_mlx_core;
 void		*g_mlx_window_main;
+void		*g_mlx_frame;
 t_param		g_params;
 t_mat4		g_camera;
 
@@ -81,9 +82,34 @@ int			circle_shader(t_shader_info i)
 	return (encode_vec3(mul_vec3(horBeam, horColour)));
 }
 
+int			sphere_shader(t_shader_info i)
+{
+	t_vec4 f;
+	t_vec3 r = vec3(cos(i.i_global_time) + 1, 2, sin(i.i_global_time) + 1),
+	  R = vec3(i.i_resolution.x, i.i_resolution.y, 1);
+
+	t_float	u = .6;
+	while (u > .1)
+	{
+		r = add_vec3(r, mul_vec3_1(mul_vec3_1(vec3((2 * i.i_frag_coord.x - R.x)/R.y, (2 * i.i_frag_coord.y - R.y)/R.y, 2 ), .06), (f.x = len_vec3(vec3(FRACT(r.x) - .5, FRACT(r.y) - .5, FRACT(r.z) - .5)) - .3)));
+		f.z =u*r.x;
+		f.y =u*r.y;
+		f.x =u*r.z;
+		if( f.w < .001 ) break ;
+		u -= .004;
+	}
+	f.w = 0;
+	return (encode_vec4(f));
+}
+
 int			draw_px(int x, int y, int color)
 {
 	return (mlx_pixel_put(g_mlx_core, g_mlx_window_main, x, y, color));
+}
+
+int			draw_frame(int x, int y, int color)
+{
+	return (x + y + color);
 }
 
 int			loop(void *param)
@@ -97,21 +123,21 @@ int			loop(void *param)
 	i = -1;
 	while (++i < 8)
 	{
-		def[i] = g_attrib_null;
+		def[i] = attrib_null();
 	}
 	i = -1;
 	while (++i < g_params.res.y)
 	{
 		a = vertex(vec3(0, (t_float)i, 0), def);
 		b = vertex(vec3(g_params.res.x, (t_float)i, 0), def);
-		draw_line(a, b, &circle_shader, g_instance->frame);
+		draw_line(a, b, &sphere_shader, get_instance()->frame);
 	}
-//	a = vertex(vec3(0, g_instance->frame->h / 2., 0), def);
-//	b = vertex(vec3(g_params.res.x, MOD(g_global_time * 60, g_instance->frame->h), 0), def);
-//	draw_line(a, b, &uv_shader, g_instance->frame);
+	//	a = vertex(vec3(0, g_instance->frame->h / 2., 0), def);
+	//	b = vertex(vec3(g_params.res.x, MOD(g_global_time * 60, g_instance->frame->h), 0), def);
+	//	draw_line(a, b, &uv_shader, g_instance->frame);
 
-	g_global_time += PI/12.;
-	frame_print(g_instance->frame);
+	set_time(get_time() + 0.1);
+	mlx_put_image_to_window(g_mlx_core, g_mlx_window_main, g_mlx_frame, 0, 0);
 	return ((int)param);
 }
 
@@ -143,19 +169,25 @@ void		make_params(int ac, char **av)
 
 int			main(int ac, char **av)
 {
+	int		tmp;
+
 	make_params(ac, av);
 	if (!g_params.file)
 		puterr(0, ft_strjoin(ft_strjoin("usage: ", av[0]), " [-res <x> <y>] <filename>"));
 	g_mlx_core = mlx_init();
-	fred_gl_init(g_params.res.x, g_params.res.y, &draw_px);
-	g_instance->frame->clear_undrawn = 1;
+	fred_gl_init(g_params.res.x, g_params.res.y, &draw_frame);
+	get_instance()->frame->clear_undrawn = 1;
 	if (!g_mlx_core)
 		puterr(1, "Failed to load MLX core /!\\");
 	g_mlx_window_main = mlx_new_window(g_mlx_core, g_params.res.x, g_params.res.y, "fdf");
 	if (!g_mlx_window_main)
 		puterr(1, "Failed to create main window /!\\");
+	g_mlx_frame = mlx_new_image(g_mlx_core, g_params.res.x, g_params.res.y);
+	free(get_instance()->frame->img->buf);
+	get_instance()->frame->img->buf = mlx_get_data_addr(g_mlx_frame, &tmp, &tmp, &tmp);
 	mlx_loop_hook(g_mlx_core, &loop, 0);
 	mlx_key_hook(g_mlx_window_main, &key_event, 0);
-	g_camera = g_mat4_identity;
+	g_camera = mat4_identity();
 	mlx_loop(g_mlx_core);
+	return (0);
 }

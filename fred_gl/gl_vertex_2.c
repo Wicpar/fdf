@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   len_vec4.c                                         :+:      :+:    :+:   */
+/*   gl_vertex_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/11 17:27:51 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/18 15:49:50 by fnieto           ###   ########.fr       */
+/*   Created: 2016/01/18 19:55:22 by fnieto            #+#    #+#             */
+/*   Updated: 2016/01/18 19:58:22 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fred_gl.h"
-#include <math.h>
 
-t_float		len_sq_vec4(t_vec4 a)
+void	gl_draw_buf(t_list *buf, t_shader s, t_frame *f, int mode)
 {
-	return (a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
-}
+	static const t_vert_draw	funcs[] = FUNCS;
 
-t_float		len_vec4(t_vec4 a)
-{
-	return (sqrt(len_sq_vec4(a)));
-}
-
-t_float		dst_sq_vec4(t_vec4 a, t_vec4 b)
-{
-	return (len_sq_vec4(sub_vec4(b, a)));
-}
-
-t_float		dst_vec4(t_vec4 a, t_vec4 b)
-{
-	return (sqrt(dst_sq_vec4(a, b)));
+	funcs[mode](buf, s, f);
 }

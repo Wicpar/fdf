@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 16:04:36 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/11 18:51:29 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/18 18:36:06 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void		frame_put_pixel(t_frame *f, t_vertex v, t_shader shader)
 		return ;
 	i.i_frag_coord = vec2(ROUND(v.pos.x), ROUND(v.pos.y));
 	i.i_resolution = vec2(f->w, f->h);
-	i.i_global_time = g_global_time;
+	i.i_global_time = get_time();
 	buf_write(f->img, i.i_frag_coord.x, i.i_frag_coord.y, T(shader(i)));
 	if (f->clear_undrawn)
 		buf_write(f->change, i.i_frag_coord.x, i.i_frag_coord.y, T(1));
@@ -77,10 +77,10 @@ void		frame_print(t_frame *f)
 			color = buf_read(f->img, x, y).i;
 			drawn = buf_read(f->change, x, y).c;
 			if (drawn || !f->clear_undrawn)
-				g_instance->drawfn(x, y, color);
+				get_instance()->drawfn(x, y, color);
 			else if (f->clear_undrawn && color)
 			{
-				g_instance->drawfn(x, y, 0);
+				get_instance()->drawfn(x, y, 0);
 				buf_write(f->img, x, y, T(0));
 			}
 			if (f->clear_undrawn)

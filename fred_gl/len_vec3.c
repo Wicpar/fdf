@@ -6,12 +6,12 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 17:27:51 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/11 17:51:45 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/18 15:49:56 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "fred_gl.h"
-# include <math.h>
+#include "fred_gl.h"
+#include <math.h>
 
 t_float		len_sq_vec3(t_vec3 a)
 {

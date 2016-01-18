@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/14 20:51:27 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/18 19:59:26 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 # define SIZE(a, x)				((a + 1.) * (x / 2.))
 # define T(a)					((t_type)a)
 
+# define FUNCS			{0, &gl_lines, 0, 0}
+# define FNC_SIZE		sizeof(FUNCS)
+
 # define GL_ALL			0
 # define GL_LEQUAL		-1
 # define GL_GEQUAL		1
@@ -44,8 +47,11 @@
 # define GL_TRIANGLES	2
 # define GL_QUADS		3
 
-# define GL_MODELVIEW 0
-# define GL_PROJECTION 1
+# define GL_MODELVIEW	0
+# define GL_PROJECTION	1
+
+# define GL_GET			0
+# define GL_SET			1
 
 typedef	double		t_float;
 
@@ -160,8 +166,9 @@ typedef	struct		s_shader_info
 	t_attrib		i_vertex_attribs[8];
 }					t_shader_info;
 
-typedef	int	(*t_shader)(t_shader_info shader_info);
-typedef	int	(*t_draw_func)(int x, int y, int color);
+typedef	int			(*t_shader)(t_shader_info shader_info);
+typedef	int			(*t_draw_func)(int x, int y, int color);
+typedef	void		(*t_vert_draw)(t_list*, t_shader, t_frame*);
 
 typedef	struct		s_instance
 {
@@ -171,10 +178,21 @@ typedef	struct		s_instance
 	t_draw_func		drawfn;
 }					t_instance;
 
+typedef	struct		s_gl_vert_i
+{
+	t_list			*lst;
+	int				mode;
+	t_attrib		attribs[8];
+	t_shader		shader;
+	t_frame			*frame;
+}					t_gl_vert_i;
+
 void				fred_gl_init(size_t w, size_t h, t_draw_func drawfn);
 
-extern t_instance	*g_instance;
-extern t_float		g_global_time;
+t_instance			*get_instance(void);
+
+t_float				get_time(void);
+void				set_time(t_float time);
 
 t_vec2				vec2(t_float x, t_float y);
 t_vec2				vec2_1(t_float x);
@@ -246,11 +264,10 @@ t_vec4				smoothstep_vec4_1(t_float e0, t_float e1, t_vec4 x);
 t_vec4				lerp_vec4_1(t_vec4 a, t_vec4 b, t_float x, t_float max);
 
 t_mat4				mat4(t_vec4 r1, t_vec4 r2, t_vec4 r3, t_vec4 r4);
+t_mat4				mat4_identity(void);
 t_mat4				mat4_scale(t_vec3 scale);
 t_mat4				mat4_translation(t_vec3 translation);
 t_mat4				mat4_rotation(t_vec3 axis, t_float angle);
-
-extern const t_mat4	g_mat4_identity;
 
 t_mat4				mul_mat4(t_mat4 a, t_mat4 b);
 t_mat4				mul_mat4_1(t_mat4 a, t_float b);
@@ -262,11 +279,11 @@ t_mat4				cam_ortho(t_vec2 lr, t_vec2 tb, t_vec2 nf);
 t_vertex			vertex(t_vec3 pos, t_attrib attribs[8]);
 t_vertex			vert_lerp(t_vertex a, t_vertex b, t_float x, t_float max);
 t_attrib			a_lerp(t_attrib a, t_attrib b, t_float x, t_float max);
-extern t_attrib		g_attrib_null;
+t_attrib			attrib_null(void);
 
 void				gl_pushmatrix(t_mat4 matrix);
 void				gl_popmatrix(void);
-void				gl_matrix_mode(int mat_mode);
+int					gl_matrix_mode(int mat_mode);
 t_vertex			gl_transform(t_vertex v);
 
 void				gl_begin(int draw_mode, t_shader s, t_frame *f);

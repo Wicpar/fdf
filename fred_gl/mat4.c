@@ -6,18 +6,12 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 12:02:27 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/09 13:32:18 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/18 18:48:19 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fred_gl.h"
 #include <math.h>
-
-const t_mat4	g_mat4_identity = {
-	1., 0., 0., 0.,
-	0., 1., 0., 0.,
-	0., 0., 1., 0.,
-	0., 0., 0., 1.};
 
 t_mat4		mat4(t_vec4 r1, t_vec4 r2, t_vec4 r3, t_vec4 r4)
 {
@@ -42,11 +36,22 @@ t_mat4		mat4(t_vec4 r1, t_vec4 r2, t_vec4 r3, t_vec4 r4)
 	return (new);
 }
 
+t_mat4		mat4_identity(void)
+{
+	static const t_mat4	identity = {
+		1., 0., 0., 0.,
+		0., 1., 0., 0.,
+		0., 0., 1., 0.,
+		0., 0., 0., 1.};
+
+	return (identity);
+}
+
 t_mat4		mat4_scale(t_vec3 scale)
 {
 	t_mat4	new;
 
-	new = g_mat4_identity;
+	new = mat4_identity();
 	new.m00 = scale.x;
 	new.m11 = scale.y;
 	new.m22 = scale.z;
@@ -57,7 +62,7 @@ t_mat4		mat4_translation(t_vec3 translation)
 {
 	t_mat4	new;
 
-	new = g_mat4_identity;
+	new = mat4_identity();
 	new.m03 = translation.x;
 	new.m13 = translation.y;
 	new.m23 = translation.z;
@@ -70,7 +75,7 @@ t_mat4		mat4_rotation(t_vec3 axis, t_float angle)
 	t_float	c;
 	t_float	s;
 
-	new = g_mat4_identity;
+	new = mat4_identity();
 	c = cos(angle);
 	s = sin(angle);
 	new.m00 = axis.x * axis.x * (1 - c) + c;
