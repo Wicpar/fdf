@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 11:40:11 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/19 17:03:10 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/22 17:01:34 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,53 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-t_vec2		map_dim(char *file)
+t_vec3		map_dim(char *file)
 {
 	int		fd;
-	t_vec2	dim;
+	t_vec3	dim;
 	size_t	cnt;
 	char	*tmp;
-	char	*i;
+	size_t	i;
 
-	dim = vec2(1, 0);
+	dim = vec3(1, 0, 0);
 	fd = open(file, O_RDONLY);
 	while (get_next_line(fd, &tmp) > 0)
 	{
-		i = tmp;
-		cnt = 0;
-		while (*i)
-		{
-			if (*i && *i == ' ' && i[1] && i[1] != ' ')
+		i = -1;
+		cnt = 1;
+		while (tmp[++i])
+			if (tmp[i] != ' ' && tmp[i + 1] == ' ')
 				cnt++;
-		}
 		free(tmp);
-		if (dim.x == 0)
+		if (cnt > dim.x)
 			dim.x = cnt;
-		else if (dim.x > 0 && dim.x != cnt)
-			dim.x = -1;
 		dim.y++;
 	}
 	close(fd);
 	return (dim);
+}
+
+t_buffer	*map_to_buff(char *file)
+{
+	t_vec3		dims;
+	t_buffer	*new;
+	int			fd;
+	char		*tmp;
+	char		**tbl;
+
+	dims = map_dim(file);
+	if (dims.y == 0)
+		return (0);
+	new = buffer(dims.x, dims.y, sizeof(void*));
+	fd = open(file, O_RDONLY);
+	while (get_next_line(fd, &tmp) > 0)
+	{
+		tbl = ft_strsplit(tmp, ' ');
+		ft_memcpy(new->buf + (size_t)(dims.z * dims.x), tbl, dims.x);
+		free(tmp);
+		free(tbl);
+		dims.z++;
+	}
+	close(fd);
+	return (new);
 }

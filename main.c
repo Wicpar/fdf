@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/19 17:05:58 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/22 17:02:02 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			loop(void *param)
 	{
 		a = vertex(vec3(0, (t_float)i, 0), def);
 		b = vertex(vec3(g_params.res.x, (t_float)i, 0), def);
-		draw_line(a, b, &sphere_shader, get_instance()->frame);
+		//draw_line(a, b, &sphere_shader, get_instance()->frame);
 	}
 	set_time(get_time() + 0.1);
 	mlx_put_image_to_window(g_mlx_core, g_mlx_window_main, g_mlx_frame, 0, 0);
@@ -106,6 +106,10 @@ int			main(int ac, char **av)
 	mlx_loop_hook(g_mlx_core, &loop, 0);
 	mlx_key_hook(g_mlx_window_main, &key_event, 0);
 	g_camera = mat4_identity();
-	mlx_loop(g_mlx_core);
+	t_buffer *test = map_to_buff(g_params.file);
+	size_t i = -1;
+	while (++i < test->w * test->h)
+		printf("%s\n", ((char**)(test->buf))[i]);
+	//mlx_loop(g_mlx_core);
 	return (0);
 }
