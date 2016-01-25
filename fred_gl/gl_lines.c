@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 15:28:42 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/14 20:13:48 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/25 17:43:10 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		gl_lines(t_list *verts, t_shader shader, t_frame *f)
 	i = 0;
 	while (verts)
 	{
-		tmp[i % 2] = *((t_vertex*)(verts->content));
+		tmp[i % 2] = gl_transform(*((t_vertex*)(verts->content)));
 		if (i % 2 == 1)
 			draw_line(tmp[0], tmp[1], shader, f);
 		verts = verts->next;

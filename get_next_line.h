@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/13 06:03:38 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/13 21:00:49 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/25 17:07:07 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ typedef	struct		s_fd
 }					t_fd;
 
 int					get_next_line(int const fd, char **line);
+t_list				*split(char *str);
 
 #endif
