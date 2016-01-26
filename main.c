@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/22 17:02:02 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/26 18:25:50 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void		make_params(int ac, char **av)
 	while (++i < ac)
 	{
 		if (!ft_strcmp(av[i], "-res"))
+
 		{
 			g_params.res.x = (t_float)ft_atoi(av[++i]);
 			g_params.res.y = (t_float)ft_atoi(av[++i]);
@@ -106,10 +107,8 @@ int			main(int ac, char **av)
 	mlx_loop_hook(g_mlx_core, &loop, 0);
 	mlx_key_hook(g_mlx_window_main, &key_event, 0);
 	g_camera = mat4_identity();
-	t_buffer *test = map_to_buff(g_params.file);
-	size_t i = -1;
-	while (++i < test->w * test->h)
-		printf("%s\n", ((char**)(test->buf))[i]);
+	t_buffer *test = map_to_vert_buff(get_map_data(g_params.file));
+	printf("%zu, %zu, %zu, %lu\n", test->w, test->h, test->type, sizeof(t_vertex));
 	//mlx_loop(g_mlx_core);
 	return (0);
 }

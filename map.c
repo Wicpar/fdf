@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 11:40:11 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/26 00:08:46 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/26 18:26:42 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,26 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+void		empty(void *ptr, size_t size)
+{
+	ptr = (void*)size;
+}
+
 t_list		*get_map_data(char *file)
 {
 	t_list	*new;
 	t_list	*cur;
 	char	*tmp;
 	int		fd;
-
 	new = 0;
 	fd = open(file, O_RDONLY);
 	while (get_next_line(fd, &tmp) > 0)
 	{
-		cur = split(tmp);
+		cur = ft_str_split_lst(tmp, ' ');
 		ft_lstpush(&new, ft_lstnew(&cur, sizeof(t_list*)));
 		free(tmp);
 	}
+	close(fd);
 	return (new);
 }
 
@@ -52,7 +57,7 @@ t_vec2		get_map_dim(t_list *map)
 			val++;
 			tmp = tmp->next;
 		}
-		vec2.x = MAX(vec2.x, (t_float)val);
+		new.x = MAX(new.x, (t_float)val);
 		map = map->next;
 	}
 	return (new);
@@ -63,15 +68,15 @@ t_vertex	str_vert(t_vec2 pos, char *str)
 	t_vertex	new;
 	char		**buf;
 	size_t		i;
-
 	buf = ft_strsplit(str, ',');
 	new.pos.x = pos.x;
 	new.pos.y = pos.y;
 	new.pos.z = ft_atoi(buf[0]);
 	free(buf[0]);
 	i = -1;
-	if (buf[1][0] == '0' && buf[1][1] == 'x')
+	if (buf[1] && buf[1][0] == '0' && buf[1][1] == 'x')
 	{
+
 		new.attributes[0].value =
 			(t_type)decode(ft_atoi_base(&(buf[1][2]), "0123456789ABCDEF"));
 		new.attributes[0].interpolation = VEC4;
@@ -84,13 +89,11 @@ t_vertex	str_vert(t_vec2 pos, char *str)
 	return (new);
 }
 
-t_buffer	map_to_vert_buff(t_list *map)
+t_buffer	*map_to_vert_buff(t_list *map)
 {
 	t_vec2		dim;
 	t_list		*tmp[3];
 	t_buffer	*new;
-	char		**buf;
-
 	dim = get_map_dim(map);
 	new = buffer(dim.x, dim.y, sizeof(t_vertex));
 	dim = vec2(0, 0);
@@ -99,15 +102,18 @@ t_buffer	map_to_vert_buff(t_list *map)
 	{
 		tmp[1] = *((t_list**)(tmp[0]->content));
 		tmp[2] = tmp[1];
+		dim.x = 0;
 		while (tmp[1])
 		{
-			buffer->buf[(buffer->w * (size_t)dim.y + (size_t)dim.x)] =
+			((t_vertex*)(new->buf))[(int)ROUND(new->w * dim.y + dim.x)] =
 				str_vert(dim, (char*)(tmp[1]->content));
+			dim.x++;
 			tmp[1] = tmp[1]->next;
 		}
-		ft_lstdel(tmp1->content, &ft_lstfree_ptr);
+		ft_lstdel(&(tmp[2]), &ft_lstfree_ptr);
 		dim.y++;
 		tmp[0] = tmp[0]->next;
 	}
-	
+	ft_lstdel(&(map), &empty);
+	return (new);
 }
