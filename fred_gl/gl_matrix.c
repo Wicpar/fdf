@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 11:28:32 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/18 19:08:45 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/27 20:39:35 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int				gl_matrix_mode(int mat_mode)
 
 	if (mat_mode > -1)
 		mode = CLAMP(mat_mode, 0, 1);
+	//ft_print_memory(mats(0), sizeof(void*) * 2);
 	return (mode);
 }
 

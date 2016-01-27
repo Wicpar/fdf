@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:00:01 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/18 19:59:46 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/27 18:53:11 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	gl_vertex(t_vec3 pos)
 	if (info->mode == -1)
 		return ;
 	new = vertex(pos, info->attribs);
-	new = gl_transform(new);
 	ft_lstpush(&(info->lst), ft_lstnew(&new, sizeof(t_vertex)));
 	i = -1;
 	while (++i < 8)
@@ -80,7 +79,7 @@ void	gl_end(void)
 	info = i_cont();
 	if (info->mode == -1)
 		return ;
-	funcs[info->mode](info->lst, info->shader, info->frame);
+	(funcs[info->mode])(info->lst, info->shader, info->frame);
 	ft_lstdel(&(info->lst), &ft_lstfree_ptr);
 	info->mode = -1;
 	info->frame = 0;

@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/26 18:23:18 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/27 20:23:51 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,7 +284,8 @@ t_attrib			attrib_null(void);
 void				gl_pushmatrix(t_mat4 matrix);
 void				gl_popmatrix(void);
 int					gl_matrix_mode(int mat_mode);
-t_vertex			gl_transform(t_vertex v);
+t_vertex			gl_transform_proj(t_vertex v);
+t_vertex			gl_transform_model(t_vertex v);
 
 void				gl_begin(int draw_mode, t_shader s, t_frame *f);
 void				gl_param(t_type value, t_interp interpolation, int index);
