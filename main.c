@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/27 20:53:46 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/28 20:08:15 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,20 @@ int			white(t_shader_info i)
 	return (0xFFFFFF);
 }
 
+int			heightmap(t_shader_info i)
+{
+	return (encode(i.i_vertex_attribs[0].value.v3.z, 1, 1));
+}
+
 int			loop(void *param)
 {
-	//t_buffer	*b = (t_buffer*)param;
-	//t_vertex	*cur;
-	//size_t		x;
-	//size_t		y;
+	t_buffer	*b = (t_buffer*)param;
+	t_vertex	*cur;
+	size_t		x;
+	size_t		y;
 
-	gl_begin(GL_LINES, &white, get_instance()->frame);
-	/*y = -1;
+	gl_begin(GL_LINES, &heightmap, get_instance()->frame);
+	y = -1;
 	while (++y < b->h)
 	{
 		x = -1;
@@ -64,35 +69,72 @@ int			loop(void *param)
 			gl_param(cur->attributes[0].value,
 				cur->attributes[0].interpolation, 1);
 			gl_vertex(cur->pos);
-		}gl_vertex(cur->pos);
-	}*/
-	gl_vertex(vec3(0, 0, 0));
-	gl_vertex(vec3(100, 100, 100));
+		}
+	}
+	x = -1;
+	while (++x < b->w)
+	{
+		y = -1;
+		while (++y < b->h - 1)
+		{
+			cur = &(((t_vertex*)(b->buf))[y * b->w + x]);
+			gl_param((t_type)cur->pos, VEC3, 0);
+			gl_param(cur->attributes[0].value,
+				cur->attributes[0].interpolation, 1);
+			gl_vertex(cur->pos);
+			//printf("%f, %f, %f\n", cur->pos.x, cur->pos.y, cur->pos.z);
+			cur = &(((t_vertex*)(b->buf))[(y + 1) * b->w + x]);
+			gl_param((t_type)cur->pos, VEC3, 0);
+			gl_param(cur->attributes[0].value,
+				cur->attributes[0].interpolation, 1);
+			gl_vertex(cur->pos);
+		}
+	}
+	//gl_vertex(vec3(0, 0, 0));
+	//gl_vertex(vec3(100, 100, 100));
 	gl_end();
 	set_time(get_time() + 0.1);
+	frame_print(get_instance()->frame);
 	mlx_put_image_to_window(g_mlx_core, g_mlx_window_main, g_mlx_frame, 0, 0);
 	return ((int)param);
 }
 
 int			key_event(int keycode, void *param)
 {
-	static t_vec2	trans = {0, 0};
+	static t_vec3	trans = {0, 0, 0};
+	static t_vec3	angls = {0, -PI, 0};
 	static t_float	zoom = 1;
 
 	if (keycode == 53)
 		exit(0);
 	if (keycode == 124 || keycode == 123)
-		trans.x += (keycode - 123 + 2 - (keycode - 122));
+		trans.x += (keycode == 124 ? 1 : -1) * .01;
 	if (keycode == 126 || keycode == 125)
-		trans.y += (keycode - 125 + 2 - (keycode - 124));
+		trans.y += (keycode == 126 ? 1 : -1) * .01;
 	if (keycode == 24 || keycode == 27)
-		zoom *= (keycode == 24 ? 10 : .1);
-	printf("%f, %f\n", trans.x, trans.y);
+		zoom *= (keycode == 24 ? 1.01 : .99);
+	if (keycode == 2 || keycode == 0)
+		angls.y -= (keycode - 1) * PI * 0.05;
+	if (keycode == 12 || keycode == 14)
+		angls.z -= (keycode - 13) * PI * 0.05;
+	if (keycode == 1 || keycode == 13)
+		angls.x += (keycode == 1 ? -1 : 1) * PI * 0.05;
+	if (keycode == 115 || keycode == 119)
+		trans.z += (keycode == 115 ? 1 : -1) * 0.01;
 	gl_matrix_mode(GL_MODELVIEW);
 	gl_popmatrix();
 	gl_popmatrix();
-	gl_pushmatrix(mat4_translation(vec3(trans.x, trans.y, 0)));
-	gl_pushmatrix(mat4_scale(vec3(zoom, zoom, zoom)));
+	gl_popmatrix();
+	//gl_popmatrix();
+	//gl_popmatrix();
+	//gl_pushmatrix(mat4_scale(vec3(zoom, zoom, zoom)));
+	//gl_pushmatrix(mat4_translation(vec3(g_params.res.x / 2., g_params.res.y / 2., 0)));
+	gl_pushmatrix(mul_mat4(mul_mat4(mat4_rotation(vec3(1, 0, 0), angls.x), mat4_rotation(vec3(0, 1, 0), angls.y)), mat4_rotation(vec3(0, 0, 1), angls.z)));
+	//gl_pushmatrix(mat4_translation(vec3(g_params.res.x / -2., g_params.res.y / -2., 0)));
+	gl_pushmatrix(mat4_translation(vec3(trans.x, trans.y, trans.z)));
+	gl_matrix_mode(GL_PROJECTION);
+	gl_popmatrix();
+	gl_pushmatrix(cam_perspective(g_params.res.x / g_params.res.y, PI * 0.5 * zoom, vec2(1, 10000000)));
 	ft_putendl(ft_itoa(keycode));
 	return ((int)param);
 }
@@ -139,7 +181,9 @@ int			main(int ac, char **av)
 	mlx_loop_hook(g_mlx_core, &loop, (void*)test);
 	mlx_key_hook(g_mlx_window_main, &key_event, 0);
 	gl_matrix_mode(GL_PROJECTION);
-	gl_pushmatrix(cam_ortho(vec2(0, g_params.res.x), vec2(0, g_params.res.y), vec2(1000, -1000)));
+//	gl_pushmatrix(cam_ortho(vec2(0, g_params.res.x), vec2(0, g_params.res.y), vec2(10000, -10000)));
+	key_event(-1, 0);
+	mlx_do_key_autorepeaton(g_mlx_core);
 	mlx_loop(g_mlx_core);
 	return (0);
 }

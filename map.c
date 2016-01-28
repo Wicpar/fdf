@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 11:40:11 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/26 18:26:42 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/28 19:25:39 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ t_vec2		get_map_dim(t_list *map)
 	return (new);
 }
 
-t_vertex	str_vert(t_vec2 pos, char *str)
+t_vertex	str_vert(t_vec2 pos, char *str, t_buffer *buffer)
 {
 	t_vertex	new;
 	char		**buf;
 	size_t		i;
 	buf = ft_strsplit(str, ',');
-	new.pos.x = pos.x;
-	new.pos.y = pos.y;
+	new.pos.x = -(pos.x - buffer->w / 2.);
+	new.pos.y = pos.y - buffer->h / 2.;
 	new.pos.z = ft_atoi(buf[0]);
 	free(buf[0]);
 	i = -1;
@@ -106,7 +106,7 @@ t_buffer	*map_to_vert_buff(t_list *map)
 		while (tmp[1])
 		{
 			((t_vertex*)(new->buf))[(int)ROUND(new->w * dim.y + dim.x)] =
-				str_vert(dim, (char*)(tmp[1]->content));
+				str_vert(dim, (char*)(tmp[1]->content), new);
 			dim.x++;
 			tmp[1] = tmp[1]->next;
 		}

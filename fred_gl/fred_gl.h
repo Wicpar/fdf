@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/27 20:23:51 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/28 19:14:46 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 
 # define FUNCS			{0, &gl_lines, 0, 0}
 # define FNC_SIZE		sizeof(FUNCS)
+
+# define PI 3.14159265358979323846
 
 # define GL_ALL			0
 # define GL_LEQUAL		-1
@@ -275,6 +277,7 @@ t_vec4				mul_mat4_vec4(t_mat4 a, t_vec4 b);
 t_vec3				mul_mat4_vec3(t_mat4 a, t_vec3 b);
 
 t_mat4				cam_ortho(t_vec2 lr, t_vec2 tb, t_vec2 nf);
+t_mat4				cam_perspective(t_float aspect, t_float fovy, t_vec2 nf);
 
 t_vertex			vertex(t_vec3 pos, t_attrib attribs[8]);
 t_vertex			vert_lerp(t_vertex a, t_vertex b, t_float x, t_float max);
@@ -284,8 +287,7 @@ t_attrib			attrib_null(void);
 void				gl_pushmatrix(t_mat4 matrix);
 void				gl_popmatrix(void);
 int					gl_matrix_mode(int mat_mode);
-t_vertex			gl_transform_proj(t_vertex v);
-t_vertex			gl_transform_model(t_vertex v);
+t_vertex			gl_transform(t_vertex v);
 
 void				gl_begin(int draw_mode, t_shader s, t_frame *f);
 void				gl_param(t_type value, t_interp interpolation, int index);

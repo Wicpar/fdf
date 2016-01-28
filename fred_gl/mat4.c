@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 12:02:27 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/18 18:48:19 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/28 17:30:37 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ t_mat4		mat4_translation(t_vec3 translation)
 	t_mat4	new;
 
 	new = mat4_identity();
-	new.m03 = translation.x;
-	new.m13 = translation.y;
-	new.m23 = translation.z;
+	new.m30 = translation.x;
+	new.m31 = translation.y;
+	new.m32 = translation.z;
 	return (new);
 }
 
