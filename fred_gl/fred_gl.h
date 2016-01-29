@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/28 19:14:46 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/29 16:14:59 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,8 @@ t_vec4				mul_mat4_vec4(t_mat4 a, t_vec4 b);
 t_vec3				mul_mat4_vec3(t_mat4 a, t_vec3 b);
 
 t_mat4				cam_ortho(t_vec2 lr, t_vec2 tb, t_vec2 nf);
-t_mat4				cam_perspective(t_float aspect, t_float fovy, t_vec2 nf);
+t_mat4				cam_perspective
+	(t_float aspect, t_float fovy, t_float n, t_float f);
 
 t_vertex			vertex(t_vec3 pos, t_attrib attribs[8]);
 t_vertex			vert_lerp(t_vertex a, t_vertex b, t_float x, t_float max);

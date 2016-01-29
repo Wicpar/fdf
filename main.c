@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/28 20:08:15 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/29 18:16:00 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ int			loop(void *param)
 	size_t		x;
 	size_t		y;
 
+	ft_putendl("b");
 	gl_begin(GL_LINES, &heightmap, get_instance()->frame);
+	ft_putendl("yo");
 	y = -1;
 	while (++y < b->h)
 	{
@@ -92,25 +94,27 @@ int			loop(void *param)
 	}
 	//gl_vertex(vec3(0, 0, 0));
 	//gl_vertex(vec3(100, 100, 100));
+	ft_putendl("z");
 	gl_end();
+	ft_putendl("a");
 	set_time(get_time() + 0.1);
 	frame_print(get_instance()->frame);
 	mlx_put_image_to_window(g_mlx_core, g_mlx_window_main, g_mlx_frame, 0, 0);
-	return ((int)param);
+	return ((int)(param = 0));
 }
 
 int			key_event(int keycode, void *param)
 {
 	static t_vec3	trans = {0, 0, 0};
 	static t_vec3	angls = {0, -PI, 0};
-	static t_float	zoom = 1;
+	static t_float	zoom = 1.5;
 
 	if (keycode == 53)
 		exit(0);
 	if (keycode == 124 || keycode == 123)
 		trans.x += (keycode == 124 ? 1 : -1) * .01;
 	if (keycode == 126 || keycode == 125)
-		trans.y += (keycode == 126 ? 1 : -1) * .01;
+		trans.z += (keycode == 126 ? 1 : -1) * .1;
 	if (keycode == 24 || keycode == 27)
 		zoom *= (keycode == 24 ? 1.01 : .99);
 	if (keycode == 2 || keycode == 0)
@@ -127,16 +131,18 @@ int			key_event(int keycode, void *param)
 	gl_popmatrix();
 	//gl_popmatrix();
 	//gl_popmatrix();
+	//gl_popmatrix();
 	//gl_pushmatrix(mat4_scale(vec3(zoom, zoom, zoom)));
+	//gl_pushmatrix(mat4_scale(vec3(0.1, 0.1, 0.1)));
 	//gl_pushmatrix(mat4_translation(vec3(g_params.res.x / 2., g_params.res.y / 2., 0)));
 	gl_pushmatrix(mul_mat4(mul_mat4(mat4_rotation(vec3(1, 0, 0), angls.x), mat4_rotation(vec3(0, 1, 0), angls.y)), mat4_rotation(vec3(0, 0, 1), angls.z)));
 	//gl_pushmatrix(mat4_translation(vec3(g_params.res.x / -2., g_params.res.y / -2., 0)));
 	gl_pushmatrix(mat4_translation(vec3(trans.x, trans.y, trans.z)));
-	gl_matrix_mode(GL_PROJECTION);
-	gl_popmatrix();
-	gl_pushmatrix(cam_perspective(g_params.res.x / g_params.res.y, PI * 0.5 * zoom, vec2(1, 10000000)));
+	//gl_matrix_mode(GL_PROJECTION);
+	//gl_popmatrix();
+	gl_pushmatrix(cam_perspective(g_params.res.x / g_params.res.y, PI / 2 * zoom, 1, 1000));
 	ft_putendl(ft_itoa(keycode));
-	return ((int)param);
+	return ((int)(param = 0));
 }
 
 void		make_params(int ac, char **av)
@@ -180,9 +186,11 @@ int			main(int ac, char **av)
 	test = map_to_vert_buff(get_map_data(g_params.file));
 	mlx_loop_hook(g_mlx_core, &loop, (void*)test);
 	mlx_key_hook(g_mlx_window_main, &key_event, 0);
-	gl_matrix_mode(GL_PROJECTION);
-//	gl_pushmatrix(cam_ortho(vec2(0, g_params.res.x), vec2(0, g_params.res.y), vec2(10000, -10000)));
+	//gl_matrix_mode(GL_PROJECTION);
+	//gl_pushmatrix(cam_ortho(vec2(0, g_params.res.x), vec2(0, g_params.res.y), vec2(10000, -10000)));
+	ft_putendl("preload");
 	key_event(-1, 0);
+	ft_putendl("postload");
 	mlx_do_key_autorepeaton(g_mlx_core);
 	mlx_loop(g_mlx_core);
 	return (0);

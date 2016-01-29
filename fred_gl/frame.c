@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 16:04:36 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/28 18:58:16 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/01/29 16:37:42 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ void		frame_put_pixel(t_frame *f, t_vertex v, t_shader shader)
 	t_shader_info	i;
 	size_t			n;
 
-	if (OUT(v.pos.x, -1, 1) || OUT(v.pos.y, -1, 1) || OUT(v.pos.z, -1, 1))
+	if (OUT(v.pos.x, -1, 1) || OUT(v.pos.y, -1, 1) || OUT(v.pos.y, -1, 1))
 		return ;
 	v.pos.x = SIZE(v.pos.x, (t_float)f->w);
 	v.pos.y = SIZE(v.pos.y, (t_float)f->h);
+	//v.pos.z = SIZE(v.pos.z, 1000);
 	if (f->depth_func && v.pos.z >
 		buf_read(f->depth, ROUND(v.pos.x), ROUND(v.pos.y)).tf)
 		return ;
