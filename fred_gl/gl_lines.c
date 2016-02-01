@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 15:28:42 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/28 18:23:52 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/01 19:04:25 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void		gl_lines(t_list *verts, t_shader shader, t_frame *f)
 			draw_line(tmp[0], tmp[1], shader, f);
 		verts = verts->next;
 		++i;
+		//printf("%zu\n", i);
 	}
 }
 
@@ -39,13 +40,13 @@ void		draw_line(t_vertex a, t_vertex b, t_shader shader, t_frame *f)
 	size_t		i;
 	t_vertex	tmp;
 
-	max = ROUND(MAX(SIZE(b.pos.x - a.pos.x, (t_float)f->w),
-			SIZE(b.pos.y - a.pos.y, (t_float)f->h)));
+	max = MAX(SIZE(CLAMP(LEN(b.pos.x, a.pos.x), -1, 1), (t_float)f->w),
+			SIZE(CLAMP(LEN(b.pos.y, a.pos.y), -1, 1), (t_float)f->h));
 	i = -1;
 	while (++i <= max)
 	{
 		tmp = vert_lerp(a, b, i, max);
-		//printf("1\n%f, %f, %f\n", tmp.pos.x, tmp.pos.y, tmp.pos.z);
+		//printf("%zu, %zu\n%f, %f, %f\n", max , i, tmp.pos.x, tmp.pos.y, tmp.pos.z);
 		//printf("2\n%f, %f, %f\n", tmp.pos.x, tmp.pos.y, tmp.pos.z);
 		frame_put_pixel(f, tmp, shader);
 	}

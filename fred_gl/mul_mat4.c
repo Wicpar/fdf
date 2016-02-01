@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 13:33:48 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/29 16:32:17 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/01 18:59:28 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,17 @@ t_vec4			mul_mat4_vec4(t_mat4 a, t_vec4 b)
 t_vec3			mul_mat4_vec3(t_mat4 a, t_vec3 b)
 {
 	t_vec3	new;
+	t_float	w;
+
 	new.x = a.m00 * b.x + a.m10 * b.y + a.m20 * b.z + a.m30;
 	new.y = a.m01 * b.x + a.m11 * b.y + a.m21 * b.z + a.m31;
 	new.z = a.m02 * b.x + a.m12 * b.y + a.m22 * b.z + a.m32;
+	w = a.m03 * b.x + a.m13 * b.y + a.m23 * b.z + a.m33;
+	if (w > 1)
+	{
+		new.x /= w;
+		new.y /= w;
+		new.z /= w;
+	}
 	return (new);
 }

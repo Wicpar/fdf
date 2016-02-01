@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/29 18:16:00 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/01 19:16:17 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ int			loop(void *param)
 	size_t		x;
 	size_t		y;
 
-	ft_putendl("b");
 	gl_begin(GL_LINES, &heightmap, get_instance()->frame);
-	ft_putendl("yo");
 	y = -1;
 	while (++y < b->h)
 	{
@@ -92,11 +90,7 @@ int			loop(void *param)
 			gl_vertex(cur->pos);
 		}
 	}
-	//gl_vertex(vec3(0, 0, 0));
-	//gl_vertex(vec3(100, 100, 100));
-	ft_putendl("z");
 	gl_end();
-	ft_putendl("a");
 	set_time(get_time() + 0.1);
 	frame_print(get_instance()->frame);
 	mlx_put_image_to_window(g_mlx_core, g_mlx_window_main, g_mlx_frame, 0, 0);
@@ -105,7 +99,7 @@ int			loop(void *param)
 
 int			key_event(int keycode, void *param)
 {
-	static t_vec3	trans = {0, 0, 0};
+	static t_vec3	trans = {0, 0, -100};
 	static t_vec3	angls = {0, -PI, 0};
 	static t_float	zoom = 1.5;
 
@@ -114,7 +108,7 @@ int			key_event(int keycode, void *param)
 	if (keycode == 124 || keycode == 123)
 		trans.x += (keycode == 124 ? 1 : -1) * .01;
 	if (keycode == 126 || keycode == 125)
-		trans.z += (keycode == 126 ? 1 : -1) * .1;
+		trans.y += (keycode == 126 ? 1 : -1) * .1;
 	if (keycode == 24 || keycode == 27)
 		zoom *= (keycode == 24 ? 1.01 : .99);
 	if (keycode == 2 || keycode == 0)
@@ -123,8 +117,6 @@ int			key_event(int keycode, void *param)
 		angls.z -= (keycode - 13) * PI * 0.05;
 	if (keycode == 1 || keycode == 13)
 		angls.x += (keycode == 1 ? -1 : 1) * PI * 0.05;
-	if (keycode == 115 || keycode == 119)
-		trans.z += (keycode == 115 ? 1 : -1) * 0.01;
 	gl_matrix_mode(GL_MODELVIEW);
 	gl_popmatrix();
 	gl_popmatrix();
@@ -188,9 +180,7 @@ int			main(int ac, char **av)
 	mlx_key_hook(g_mlx_window_main, &key_event, 0);
 	//gl_matrix_mode(GL_PROJECTION);
 	//gl_pushmatrix(cam_ortho(vec2(0, g_params.res.x), vec2(0, g_params.res.y), vec2(10000, -10000)));
-	ft_putendl("preload");
 	key_event(-1, 0);
-	ft_putendl("postload");
 	mlx_do_key_autorepeaton(g_mlx_core);
 	mlx_loop(g_mlx_core);
 	return (0);
