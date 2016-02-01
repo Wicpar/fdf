@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 14:04:51 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/01 19:26:04 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/01 23:14:18 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ t_mat4		cam_perspective(t_float aspect, t_float fovy, t_float n, t_float f)
 	v[1] = v[0] * aspect;
 	new.m00 = 1 / v[1];
 	new.m11 = 1 / v[0];
-	new.m22 = -f / (f - n);
-	new.m32 = -f * n / (f - n);
+	new.m22 = -f - n / (f - n);
+	new.m32 = -2 * f * n / (f - n);
 	new.m23 = -1;
 	new.m33 = 0;
 	return (new);

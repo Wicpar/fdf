@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 13:33:48 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/01 18:59:28 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/01 23:13:21 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_vec3			mul_mat4_vec3(t_mat4 a, t_vec3 b)
 	new.y = a.m01 * b.x + a.m11 * b.y + a.m21 * b.z + a.m31;
 	new.z = a.m02 * b.x + a.m12 * b.y + a.m22 * b.z + a.m32;
 	w = a.m03 * b.x + a.m13 * b.y + a.m23 * b.z + a.m33;
-	if (w > 1)
+	if (ABS(w) > 0.01)
 	{
 		new.x /= w;
 		new.y /= w;

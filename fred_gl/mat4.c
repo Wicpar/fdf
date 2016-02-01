@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 12:02:27 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/28 17:30:37 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/01 23:46:48 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,26 @@ t_mat4		mat4_translation(t_vec3 translation)
 	return (new);
 }
 
-t_mat4		mat4_rotation(t_vec3 axis, t_float angle)
+t_mat4		mat4_rotation(t_float rotx, t_float roty, t_float rotz)
 {
 	t_mat4	new;
-	t_float	c;
-	t_float	s;
+	t_float	v[6];
 
 	new = mat4_identity();
-	c = cos(angle);
-	s = sin(angle);
-	new.m00 = axis.x * axis.x * (1 - c) + c;
-	new.m10 = axis.x * axis.y * (1 - c) - axis.z * s;
-	new.m20 = axis.x * axis.z * (1 - c) + axis.y * s;
-	new.m01 = axis.x * axis.y * (1 - c) + axis.z * s;
-	new.m11 = axis.y * axis.y * (1 - c) + c;
-	new.m21 = axis.y * axis.z * (1 - c) + axis.x * s;
-	new.m02 = axis.x * axis.z * (1 - c) - axis.y * s;
-	new.m12 = axis.y * axis.z * (1 - c) + axis.x * s;
-	new.m22 = axis.z * axis.z * (1 - c) + c;
+	v[0] = cos(rotx);
+	v[1] = sin(rotx);
+	v[2] = cos(roty);
+	v[3] = sin(roty);
+	v[4] = cos(rotz);
+	v[5] = sin(rotz);
+	new.m20 = v[3];
+	new.m21 = -v[1] * v[2];
+	new.m22 = v[0] * v[2];
+	new.m00 = v[2] * v[4];
+	new.m01 = v[1] * v[3] * v[4] + v[0] * v[5];
+	new.m02 = -v[3] * v[0] * v[4] + v[1] * v[5];
+	new.m10 = -v[5] * v[2];
+	new.m11 = -v[5] * v[1] * v[3] + v[0] * v[4];
+	new.m12 = v[5] * v[3] * v[0] + v[1] * v[4];
 	return (new);
 }

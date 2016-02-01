@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/01 18:53:57 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/01 23:48:10 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ t_mat4				mat4(t_vec4 r1, t_vec4 r2, t_vec4 r3, t_vec4 r4);
 t_mat4				mat4_identity(void);
 t_mat4				mat4_scale(t_vec3 scale);
 t_mat4				mat4_translation(t_vec3 translation);
-t_mat4				mat4_rotation(t_vec3 axis, t_float angle);
+t_mat4				mat4_rotation(t_float rotx, t_float roty, t_float rotz);
 
 t_mat4				mul_mat4(t_mat4 a, t_mat4 b);
 t_mat4				mul_mat4_1(t_mat4 a, t_float b);
