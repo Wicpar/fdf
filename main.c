@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 00:04:22 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/02 19:01:08 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,15 @@ int			white(t_shader_info i)
 
 int			heightmap(t_shader_info i)
 {
-	return (encode(i.i_vertex_attribs[0].value.v3.z, 1, 1));
+	//ft_print_memory(&(i.i_vertex_attribs[0]), sizeof (t_attrib));
+	//ft_putendl("<-->");
+	//ft_print_memory(&(i.i_vertex_attribs[0].value.v3.z), sizeof(t_float));
+	//if (i.i_vertex_attribs[0].value.v3.z != 0)
+	//printf("%f\n",i.i_vertex_attribs[0].value.v3.z);
+	//t_vec3 pos = i.i_vertex_attribs[0].value.v3;
+	//printf("%e, %e, %e\n", pos.x, pos.y, pos.z);
+	//ft_putendl("");
+	return (encode_vec3(vec3_1(i.i_vertex_attribs[0].value.v3.z / 10 + 1)));
 }
 
 int			loop(void *param)
@@ -59,11 +67,11 @@ int			loop(void *param)
 		while (++x < b->w - 1)
 		{
 			cur = &(((t_vertex*)(b->buf))[y * b->w + x]);
-			gl_param((t_type)cur->pos, VEC3, 0);
+			gl_param(T(cur->pos), VEC3, 0);
 			gl_param(cur->attributes[0].value,
 				cur->attributes[0].interpolation, 1);
 			gl_vertex(cur->pos);
-			//printf("%f, %f, %f\n", cur->pos.x, cur->pos.y, cur->pos.z);
+	//printf("%e, %e, %e\n", T(cur->pos).v3.x, T(cur->pos).v3.y, T(cur->pos).v3.z);
 			cur = &(((t_vertex*)(b->buf))[y * b->w + x + 1]);
 			gl_param((t_type)cur->pos, VEC3, 0);
 			gl_param(cur->attributes[0].value,

@@ -6,12 +6,15 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 11:39:59 by fnieto            #+#    #+#             */
-/*   Updated: 2016/01/18 19:13:15 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/02 18:53:05 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fred_gl.h"
 
+
+
+#include <stdio.h>
 t_attrib		attrib_null(void)
 {
 	static t_attrib		attrib_null = {0, {0}};
@@ -26,7 +29,7 @@ t_vertex		vertex(t_vec3 pos, t_attrib attribs[8])
 
 	new.pos = pos;
 	i = -1;
-	while (i < 8)
+	while (++i < 8)
 	{
 		new.attributes[i] = attribs[i];
 	}
