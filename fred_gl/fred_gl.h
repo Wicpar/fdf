@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/01 23:48:10 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/02 21:27:15 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define OUT(a, min, max)		(a < min || a >= max)
 # define SIZE(a, x)				((a + 1.) * (x / 2.))
 # define T(a)					((t_type)a)
-# define LEN(a, b)			(a > b ? b - a : a - b)
+# define LEN(a, b)				(a > b ? b - a : a - b)
 
 # define FUNCS			{0, &gl_lines, 0, 0}
 # define FNC_SIZE		sizeof(FUNCS)

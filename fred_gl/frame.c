@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 16:04:36 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/01 23:13:41 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/02 19:58:53 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ void		frame_put_pixel(t_frame *f, t_vertex v, t_shader shader)
 		return ;
 	v.pos.x = SIZE(v.pos.x, (t_float)f->w);
 	v.pos.y = SIZE(v.pos.y, (t_float)f->h);
-	//v.pos.z = SIZE(v.pos.z, 1000);
-	if (f->depth_func && v.pos.z >
+	if (f->depth_func && v.pos.z <
 		buf_read(f->depth, ROUND(v.pos.x), ROUND(v.pos.y)).tf)
 		return ;
 	i.i_frag_coord = vec2(ROUND(v.pos.x), ROUND(v.pos.y));

@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:00:01 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 18:49:42 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/02 19:58:58 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	gl_vertex(t_vec3 pos)
 	i = -1;
 	while (++i < 8)
 	{
-		info->attribs[i] = i_cont()->attribs[i];
+		info->attribs[i] = attrib_null();
 	}
 }
 

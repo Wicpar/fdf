@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 19:01:08 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/02 21:12:07 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int			heightmap(t_shader_info i)
 	//t_vec3 pos = i.i_vertex_attribs[0].value.v3;
 	//printf("%e, %e, %e\n", pos.x, pos.y, pos.z);
 	//ft_putendl("");
-	return (encode_vec3(vec3_1(i.i_vertex_attribs[0].value.v3.z / 10 + 1)));
+	return (encode_vec3(vec3_1(i.i_vertex_attribs[0].value.v3.z / 20 + 0.5)));
 }
 
 int			loop(void *param)
@@ -59,7 +59,7 @@ int			loop(void *param)
 	size_t		x;
 	size_t		y;
 
-	gl_begin(GL_LINES, &heightmap, get_instance()->frame);
+	gl_begin(GL_LINES, &funky_height_shader, get_instance()->frame);
 	y = -1;
 	while (++y < b->h)
 	{
@@ -166,6 +166,7 @@ int			main(int ac, char **av)
 	g_mlx_core = mlx_init();
 	fred_gl_init(g_params.res.x, g_params.res.y, &draw_frame);
 	get_instance()->frame->clear_undrawn = 1;
+	get_instance()->frame->depth_func = 1;
 	if (!g_mlx_core)
 		puterr(1, "Failed to load MLX core /!\\");
 	g_mlx_window_main = mlx_new_window(g_mlx_core, g_params.res.x, g_params.res.y, "fdf");

@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 11:39:59 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 18:53:05 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/02 20:03:56 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ t_attrib		a_lerp
 			new.value = T(lerp_vec4_1(a.value.v4, b.value.v4, x, max));
 		else
 			new.value = (x < max / 2. ? a.value : b.value);
+		new.interpolation = a.interpolation;
+		return (new);
 	}
-	else
-		new.value = (x < max / 2. ? a.value : b.value);
+	new.value = (x < max / 2. ? a.value : b.value);
+	new.interpolation = NONE;
 	return (new);
 }
 
