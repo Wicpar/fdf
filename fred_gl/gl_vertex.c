@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:00:01 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 19:58:58 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/03 18:36:08 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,22 @@ void	gl_vertex(t_vec3 pos)
 	}
 }
 
-void	gl_end(void)
+t_list	*gl_end(void)
 {
-	static const t_vert_draw	funcs[] = FUNCS;
+	//static const t_vert_draw	funcs[] = FUNCS;
 	t_gl_vert_i					*info;
+	t_list						*tmp;
 
 	info = i_cont();
 	if (info->mode == -1)
-		return ;
-	(funcs[info->mode])(info->lst, info->shader, info->frame);
-	ft_lstdel(&(info->lst), &ft_lstfree_ptr);
+		return (0);
+	//(funcs[info->mode])(info->lst, info->shader, info->frame);
+	tmp = info->lst;
+	info->lst = 0;
+	//ft_lstdel(&(info->lst), &ft_lstfree_ptr);
 	info->mode = -1;
 	info->frame = 0;
 	info->shader = 0;
+	return (tmp);
 }
 

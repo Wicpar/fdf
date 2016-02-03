@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 19:50:26 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 21:44:07 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/03 18:21:19 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,16 @@ int		funky_height_shader(t_shader_info i)
 {
 	t_vec3 rgb;
 	rgb = i.i_vertex_attribs[0].value.v3;
-	rgb = hsv2rgb_smooth(vec3(rgb.z / 10. + 10, 1, 1));
+	rgb = hsv2rgb_smooth(vec3(rgb.z / 10. + i.i_global_time, 1, 1));
 	//printf("%e, %e, %e\n", rgb.x, rgb.y, rgb.z);
+	return (encode_vec3(rgb));
+}
+
+int		funky_sphere_shader(t_shader_info i)
+{
+	t_vec3 rgb;
+
+	rgb = i.i_vertex_attribs[0].value.v3;
+	rgb = hsv2rgb_smooth(vec3(len_vec3(rgb) / 10. + i.i_global_time, 1, 1));
 	return (encode_vec3(rgb));
 }

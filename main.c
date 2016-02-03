@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 21:12:07 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/03 18:41:07 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,51 +54,55 @@ int			heightmap(t_shader_info i)
 
 int			loop(void *param)
 {
-	t_buffer	*b = (t_buffer*)param;
+	t_map		*b = ((t_map*)param);
 	t_vertex	*cur;
 	size_t		x;
 	size_t		y;
 
-	gl_begin(GL_LINES, &funky_height_shader, get_instance()->frame);
-	y = -1;
-	while (++y < b->h)
+	if (b->cur == 0)
 	{
-		x = -1;
-		while (++x < b->w - 1)
-		{
-			cur = &(((t_vertex*)(b->buf))[y * b->w + x]);
-			gl_param(T(cur->pos), VEC3, 0);
-			gl_param(cur->attributes[0].value,
-				cur->attributes[0].interpolation, 1);
-			gl_vertex(cur->pos);
-	//printf("%e, %e, %e\n", T(cur->pos).v3.x, T(cur->pos).v3.y, T(cur->pos).v3.z);
-			cur = &(((t_vertex*)(b->buf))[y * b->w + x + 1]);
-			gl_param((t_type)cur->pos, VEC3, 0);
-			gl_param(cur->attributes[0].value,
-				cur->attributes[0].interpolation, 1);
-			gl_vertex(cur->pos);
-		}
-	}
-	x = -1;
-	while (++x < b->w)
-	{
+		gl_begin(GL_LINES, &funky_sphere_shader, get_instance()->frame);
 		y = -1;
-		while (++y < b->h - 1)
+		while (++y < b->buf->h)
 		{
-			cur = &(((t_vertex*)(b->buf))[y * b->w + x]);
-			gl_param((t_type)cur->pos, VEC3, 0);
-			gl_param(cur->attributes[0].value,
-				cur->attributes[0].interpolation, 1);
-			gl_vertex(cur->pos);
-			//printf("%f, %f, %f\n", cur->pos.x, cur->pos.y, cur->pos.z);
-			cur = &(((t_vertex*)(b->buf))[(y + 1) * b->w + x]);
-			gl_param((t_type)cur->pos, VEC3, 0);
-			gl_param(cur->attributes[0].value,
-				cur->attributes[0].interpolation, 1);
-			gl_vertex(cur->pos);
+			x = -1;
+			while (++x < b->buf->w - 1)
+			{
+				cur = &(((t_vertex*)(b->buf->buf))[y * b->buf->w + x]);
+				gl_param(T(cur->pos), VEC3, 0);
+				gl_param(cur->attributes[0].value,
+						cur->attributes[0].interpolation, 1);
+				gl_vertex(cur->pos);
+				printf("%e, %e, %e\n", T(cur->pos).v3.x, T(cur->pos).v3.y, T(cur->pos).v3.z);
+				cur = &(((t_vertex*)(b->buf->buf))[y * b->buf->w + x + 1]);
+				gl_param((t_type)cur->pos, VEC3, 0);
+				gl_param(cur->attributes[0].value,
+						cur->attributes[0].interpolation, 1);
+				gl_vertex(cur->pos);
+			}
 		}
+		x = -1;
+		while (++x < b->buf->w)
+		{
+			y = -1;
+			while (++y < b->buf->h - 1)
+			{
+				cur = &(((t_vertex*)(b->buf->buf))[y * b->buf->w + x]);
+				gl_param((t_type)cur->pos, VEC3, 0);
+				gl_param(cur->attributes[0].value,
+						cur->attributes[0].interpolation, 1);
+				gl_vertex(cur->pos);
+				//printf("%f, %f, %f\n", cur->pos.x, cur->pos.y, cur->pos.z);
+				cur = &(((t_vertex*)(b->buf->buf))[(y + 1) * b->buf->w + x]);
+				gl_param((t_type)cur->pos, VEC3, 0);
+				gl_param(cur->attributes[0].value,
+						cur->attributes[0].interpolation, 1);
+				gl_vertex(cur->pos);
+			}
+		}
+		b->cur = gl_end();
 	}
-	gl_end();
+	gl_draw_buf(b->cur, &funky_sphere_shader, get_instance()->frame, GL_LINES);
 	set_time(get_time() + 0.1);
 	frame_print(get_instance()->frame);
 	mlx_put_image_to_window(g_mlx_core, g_mlx_window_main, g_mlx_frame, 0, 0);
@@ -158,7 +162,7 @@ void		make_params(int ac, char **av)
 int			main(int ac, char **av)
 {
 	int			tmp;
-	t_buffer	*test;
+	t_map		test;
 
 	make_params(ac, av);
 	if (!g_params.file)
@@ -176,7 +180,7 @@ int			main(int ac, char **av)
 	free(get_instance()->frame->img->buf);
 	get_instance()->frame->img->buf = mlx_get_data_addr(g_mlx_frame, &tmp, &tmp, &tmp);
 	test = map_to_vert_buff(get_map_data(g_params.file));
-	mlx_loop_hook(g_mlx_core, &loop, (void*)test);
+	mlx_loop_hook(g_mlx_core, &loop, (void*)(&test));
 	mlx_hook(g_mlx_window_main,2, 4, &key_event, 0);
 	key_event(-1, 0);
 	mlx_loop(g_mlx_core);

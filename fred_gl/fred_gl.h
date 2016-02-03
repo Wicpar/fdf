@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 21:27:15 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/03 18:28:21 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ t_vertex			gl_transform(t_vertex v);
 void				gl_begin(int draw_mode, t_shader s, t_frame *f);
 void				gl_param(t_type value, t_interp interpolation, int index);
 void				gl_vertex(t_vec3 pos);
-void				gl_end(void);
+t_list				*gl_end(void);
 void				gl_draw_buf(t_list *buf, t_shader s, t_frame *f, int mode);
 
 t_buffer			*buffer(size_t w, size_t h, size_t type);

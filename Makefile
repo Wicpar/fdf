@@ -6,7 +6,7 @@
 #    By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/19 14:09:58 by apachkof          #+#    #+#              #
-#    Updated: 2016/02/02 20:00:27 by fnieto           ###   ########.fr        #
+#    Updated: 2016/02/03 17:54:24 by fnieto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS=-Wall -Wextra -Werror -O3
 
 RM=rm -f
 
-SRC=main.c error.c get_next_line.c map.c ft_str_split_lst.c shaders1.c
+SRC=main.c error.c get_next_line.c map.c ft_str_split_lst.c shaders1.c t_map.c
 
 LIB= -framework OpenGL -framework AppKit libft/libft.a minilibx_macos/libmlx.a fred_gl/fred_gl.a
 
