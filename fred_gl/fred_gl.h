@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/03 18:28:21 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/03 19:49:23 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define T(a)					((t_type)a)
 # define LEN(a, b)				(a > b ? b - a : a - b)
 
-# define FUNCS			{0, &gl_lines, 0, 0}
+# define FUNCS			{0, &gl_lines, &gl_line_strip, 0}
 # define FNC_SIZE		sizeof(FUNCS)
 
 # define PI 3.14159265358979323846
@@ -47,8 +47,9 @@
 
 # define GL_POINTS		0
 # define GL_LINES		1
-# define GL_TRIANGLES	2
-# define GL_QUADS		3
+# define GL_LINE_STRIP	2
+# define GL_TRIANGLES	3
+# define GL_QUADS		4
 
 # define GL_MODELVIEW	0
 # define GL_PROJECTION	1
@@ -309,6 +310,8 @@ void				frame_del(t_frame **frame);
 
 void				draw_line(t_vertex a, t_vertex b, t_shader s, t_frame *f);
 void				gl_lines(t_list *v, t_shader s, t_frame *f);
+void				gl_line_strip(t_list *verts, t_shader shader, t_frame *f);
+
 
 int					encode(t_float r, t_float g, t_float b);
 int					encode_vec3(t_vec3 color);

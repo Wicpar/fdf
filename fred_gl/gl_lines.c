@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 15:28:42 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 21:48:23 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/03 19:47:59 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,23 @@
 
 
 #include <stdio.h>
+
+void		gl_line_strip(t_list *verts, t_shader shader, t_frame *f)
+{
+	t_vertex	tmp[2];
+	size_t		i;
+
+	i = 0;
+	while (verts)
+	{
+		tmp[0] = tmp[1];
+		tmp[1] = gl_transform(*((t_vertex*)(verts->content)));
+		if (i != 0)
+			draw_line(tmp[0], tmp[1], shader, f);
+		verts = verts->next;
+		++i;
+	}
+}
 
 void		gl_lines(t_list *verts, t_shader shader, t_frame *f)
 {
@@ -40,8 +57,8 @@ void		draw_line(t_vertex a, t_vertex b, t_shader shader, t_frame *f)
 	size_t		i;
 	t_vertex	tmp;
 
-	max = MAX(SIZE(CLAMP(LEN(b.pos.x, a.pos.x), -1, 1), (t_float)f->w),
-			SIZE(CLAMP(LEN(b.pos.y, a.pos.y), -1, 1), (t_float)f->h));
+	max = MAX(SIZE(LEN(b.pos.x, a.pos.x), (t_float)f->w),
+			SIZE(LEN(b.pos.y, a.pos.y), (t_float)f->h));
 	i = -1;
 	while (++i <= max)
 	{
