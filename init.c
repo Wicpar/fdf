@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 21:17:24 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/04 23:22:53 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 23:49:26 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void		makey(t_map *b)
 
 void		init_verts(t_map *b)
 {
-	gl_begin(GL_LINES, &funky_sphere_shader, get_instance()->frame);
+	gl_begin(GL_LINES, &height, get_instance()->frame);
 	makex(b);
 	makey(b);
 	b->cur = gl_end();

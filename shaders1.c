@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 19:50:26 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/04 20:43:11 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 23:49:14 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		pass_shader(t_shader_info i)
 	return (encode_vec4(col));
 }
 
-int		funky_height_shader(t_shader_info i)
+int		height(t_shader_info i)
 {
 	t_vec3 rgb;
 
@@ -43,7 +43,7 @@ int		funky_height_shader(t_shader_info i)
 	return (encode_vec3(rgb));
 }
 
-int		funky_sphere_shader(t_shader_info i)
+int		sphere(t_shader_info i)
 {
 	t_vec3 rgb;
 

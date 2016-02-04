@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/04 22:53:18 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 23:42:40 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ int			draw_frame(int x, int y, int color)
 
 int			loop(void *param)
 {
-	t_map		*b;
+	static t_shader	shaders[] = SHADERS;
+	t_map			*b;
 
 	b = (t_map*)param;
 	if (!b->cur)
 		init_verts(b);
-	gl_draw_buf(b->cur, &palette_height, get_instance()->frame, GL_LINES);
+	gl_draw_buf(b->cur, shaders[GV(C_SHADER).i],
+		get_instance()->frame, GL_LINES);
 	set_time(get_time() + 0.1);
 	frame_print(get_instance()->frame);
 	mlx_put_image_to_window(GV(MLX_CORE).v, GV(MLX_WINDOW).v,
@@ -50,6 +52,8 @@ int			key_event(int keycode, void *param)
 		GV(C_ANGLS).v3.z -= PI * 0.05 * (keycode - 13);
 	if (keycode == 1 || keycode == 13)
 		GV(C_ANGLS).v3.x += (keycode == 1 ? -1 : 1) * PI * 0.05;
+	if (keycode == 3)
+		GV(C_SHADER).i += (GV(C_SHADER).i == 3 ? -3 : 1);
 	gl_matrix_mode(GL_MODELVIEW);
 	gl_popmatrix();
 	gl_popmatrix();
@@ -60,7 +64,6 @@ int			key_event(int keycode, void *param)
 	gl_pushmatrix(mat4_translation(GV(C_TRANS).v3));
 	gl_pushmatrix(cam_perspective(
 		GV(F_RES).v2.x / GV(F_RES).v2.y, PI / 2 * GV(C_ZOOM).tf, 0.1, 10000));
-	ft_putendl(ft_itoa(keycode));
 	return ((int)(param = 0));
 }
 

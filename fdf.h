@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:31:54 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/04 22:45:02 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 23:48:55 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@
 # define C_ANGLS	7
 # define C_HEIGHT	8
 # define C_ZOOM		9
+# define C_SHADER	10
 
 # define GV(i)		(*var(i))
 # define SV(i, val)	(*var(i) = (t_type)(val))
+
+# define SHADERS	{&palette_height, &height, &sphere, &pass_shader}
 
 typedef	struct		s_map
 {
@@ -41,8 +44,8 @@ t_map				map_to_vert_buff(t_list *map);
 t_list				*get_map_data(char *file);
 t_list				*ft_str_split_lst(const char *src, const char div);
 int					pass_shader(t_shader_info i);
-int					funky_height_shader(t_shader_info i);
-int					funky_sphere_shader(t_shader_info i);
+int					height(t_shader_info i);
+int					sphere(t_shader_info i);
 int					palette_height(t_shader_info i);
 
 t_map				map(t_vec4 dims);
