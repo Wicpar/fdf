@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:36:19 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/03 19:52:55 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 18:37:58 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,14 @@ int			loop(void *param)
 				gl_param(T(cur->pos), VEC3, 0);
 				gl_param(cur->attributes[0].value,
 						cur->attributes[0].interpolation, 1);
+				gl_param((t_type)b->height, VEC2, 2);
 				gl_vertex(cur->pos);
-				printf("%e, %e, %e\n", T(cur->pos).v3.x, T(cur->pos).v3.y, T(cur->pos).v3.z);
+				printf("%zu %zu:%e, %e, %e\n", x, y, cur->pos.x, cur->pos.y, cur->pos.z);
 				cur = &(((t_vertex*)(b->buf->buf))[y * b->buf->w + x + 1]);
 				gl_param((t_type)cur->pos, VEC3, 0);
 				gl_param(cur->attributes[0].value,
 						cur->attributes[0].interpolation, 1);
+				gl_param((t_type)b->height, VEC2, 2);
 				gl_vertex(cur->pos);
 			}
 		}
@@ -91,18 +93,20 @@ int			loop(void *param)
 				gl_param((t_type)cur->pos, VEC3, 0);
 				gl_param(cur->attributes[0].value,
 						cur->attributes[0].interpolation, 1);
+				gl_param((t_type)b->height, VEC2, 2);
 				gl_vertex(cur->pos);
-				//printf("%f, %f, %f\n", cur->pos.x, cur->pos.y, cur->pos.z);
+				printf("%zu %zu:%e, %e, %e\n", x, y, cur->pos.x, cur->pos.y, cur->pos.z);
 				cur = &(((t_vertex*)(b->buf->buf))[(y + 1) * b->buf->w + x]);
 				gl_param((t_type)cur->pos, VEC3, 0);
 				gl_param(cur->attributes[0].value,
 						cur->attributes[0].interpolation, 1);
+				gl_param((t_type)b->height, VEC2, 2);
 				gl_vertex(cur->pos);
 			}
 		}
 		b->cur = gl_end();
 	}
-	gl_draw_buf(b->cur, &funky_sphere_shader, get_instance()->frame, GL_LINES);
+	gl_draw_buf(b->cur, &funky_height_shader, get_instance()->frame, GL_LINES);
 	set_time(get_time() + 0.1);
 	frame_print(get_instance()->frame);
 	mlx_put_image_to_window(g_mlx_core, g_mlx_window_main, g_mlx_frame, 0, 0);
@@ -113,14 +117,13 @@ int			key_event(int keycode, void *param)
 {
 	static t_vec3	trans = {0, 0, 100};
 	static t_vec3	angls = {0, -PI, -PI};
+	static t_float	h = 0.5;
 	static t_float	zoom = 1;
 
 	if (keycode == 53)
 		exit(0);
-	if (keycode == 124 || keycode == 123)
-		trans.x -= (keycode == 124 ? 1 : -1) * 1;
 	if (keycode == 126 || keycode == 125)
-		trans.y += (keycode == 126 ? 1 : -1) * 1;
+		h *= (keycode == 126 ? 1.1 : 0.9);
 	if (keycode == 24 || keycode == 27)
 		zoom *= (keycode == 24 ? 1.01 : .99);
 	if (keycode == 2 || keycode == 0)
@@ -133,6 +136,8 @@ int			key_event(int keycode, void *param)
 	gl_popmatrix();
 	gl_popmatrix();
 	gl_popmatrix();
+	gl_popmatrix();
+	gl_pushmatrix(mat4_scale(vec3(1, 1, h)));
 	gl_pushmatrix(mat4_rotation(angls.x, angls.y, angls.z));
 	gl_pushmatrix(mat4_translation(vec3(trans.x, trans.y, trans.z)));
 	gl_pushmatrix(cam_perspective(g_params.res.x / g_params.res.y, PI / 4 * zoom, 0.1, 10000));
@@ -181,7 +186,7 @@ int			main(int ac, char **av)
 	get_instance()->frame->img->buf = mlx_get_data_addr(g_mlx_frame, &tmp, &tmp, &tmp);
 	test = map_to_vert_buff(get_map_data(g_params.file));
 	mlx_loop_hook(g_mlx_core, &loop, (void*)(&test));
-	mlx_hook(g_mlx_window_main,2, 4, &key_event, 0);
+	mlx_hook(g_mlx_window_main,2, 4, &key_event, (void*)(&test));
 	key_event(-1, 0);
 	mlx_loop(g_mlx_core);
 	return (0);

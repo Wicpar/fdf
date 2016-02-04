@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/03 19:49:23 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 18:16:17 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define LERP(a, b, x, max)		(MIX(a, b, x / max))
 # define ROUND(a)				(FRACT(a) > 0.5 ? CEIL(a) : FLOOR(a))
 # define OUT(a, min, max)		(a < min || a >= max)
-# define SIZE(a, x)				((a + 1.) * (x / 2.))
+# define SIZE(a, x)				((a + 1.) * ((x-1.) / 2.))
 # define T(a)					((t_type)a)
 # define LEN(a, b)				(a > b ? b - a : a - b)
 
