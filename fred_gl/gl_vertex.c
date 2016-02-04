@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 12:00:01 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/04 18:00:23 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 20:51:41 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 static t_gl_vert_i	*i_cont(void)
 {
 	static t_gl_vert_i	i = {0, 0, {
-		{0, {0}}, {0, {0}}, {0, {0}}, {0, {0}},
-		{0, {0}}, {0, {0}}, {0, {0}}, {0, {0}}
-		}, 0, 0};
 
+	{0, {0}}, {0, {0}}, {0, {0}}, {0, {0}},
+	{0, {0}}, {0, {0}}, {0, {0}}, {0, {0}}
+	}, 0, 0};
 	return (&i);
 }
 
-void	gl_begin(int draw_mode, t_shader s, t_frame *f)
+void				gl_begin(int draw_mode, t_shader s, t_frame *f)
 {
 	size_t		i;
 	t_gl_vert_i	*info;
@@ -41,7 +41,7 @@ void	gl_begin(int draw_mode, t_shader s, t_frame *f)
 	}
 }
 
-void	gl_param(t_type value, t_interp interpolation, int index)
+void				gl_param(t_type value, t_interp interpolation, int index)
 {
 	t_attrib	tmp;
 
@@ -52,7 +52,7 @@ void	gl_param(t_type value, t_interp interpolation, int index)
 	i_cont()->attribs[index] = tmp;
 }
 
-void	gl_vertex(t_vec3 pos)
+void				gl_vertex(t_vec3 pos)
 {
 	t_vertex	new;
 	size_t		i;
@@ -70,22 +70,18 @@ void	gl_vertex(t_vec3 pos)
 	}
 }
 
-t_list	*gl_end(void)
+t_list				*gl_end(void)
 {
-	//static const t_vert_draw	funcs[] = FUNCS;
 	t_gl_vert_i					*info;
 	t_list						*tmp;
 
 	info = i_cont();
 	if (info->mode == -1)
 		return (0);
-	//(funcs[info->mode])(info->lst, info->shader, info->frame);
 	tmp = info->lst;
 	info->lst = 0;
-	//ft_lstdel(&(info->lst), &ft_lstfree_ptr);
 	info->mode = -1;
 	info->frame = 0;
 	info->shader = 0;
 	return (tmp);
 }
-

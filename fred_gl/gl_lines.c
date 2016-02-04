@@ -6,16 +6,12 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 15:28:42 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/04 18:22:21 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 20:49:03 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fred_gl.h"
 #include "libft.h"
-
-
-
-#include <stdio.h>
 
 void		gl_line_strip(t_list *verts, t_shader shader, t_frame *f)
 {
@@ -47,25 +43,21 @@ void		gl_lines(t_list *verts, t_shader shader, t_frame *f)
 			draw_line(tmp[0], tmp[1], shader, f);
 		verts = verts->next;
 		++i;
-		//printf("%zu\n", i);
 	}
 }
 
 void		draw_line(t_vertex a, t_vertex b, t_shader shader, t_frame *f)
 {
-	int		max;
-	int		i;
+	int			max;
+	int			i;
 	t_vertex	tmp;
 
 	max = MAX(SIZE(LEN(b.pos.x, a.pos.x), (t_float)f->w),
 			SIZE(LEN(b.pos.y, a.pos.y), (t_float)f->h));
 	i = -1;
-	//printf("%i\n", max);
 	while (++i < max)
 	{
 		tmp = vert_lerp(a, b, i, max);
-		//printf("%zu, %zu\n%f, %f, %f\n", max , i, tmp.pos.x, tmp.pos.y, tmp.pos.z);
 		frame_put_pixel(f, tmp, shader);
 	}
-	//printf("2\n%f, %f, %f\n", tmp.pos.x, tmp.pos.y, tmp.pos.z);
 }

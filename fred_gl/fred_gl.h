@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:05:50 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/04 18:16:17 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 22:28:41 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ t_mat4				mat4(t_vec4 r1, t_vec4 r2, t_vec4 r3, t_vec4 r4);
 t_mat4				mat4_identity(void);
 t_mat4				mat4_scale(t_vec3 scale);
 t_mat4				mat4_translation(t_vec3 translation);
-t_mat4				mat4_rotation(t_float rotx, t_float roty, t_float rotz);
+t_mat4				mat4_rotation(t_vec3 rot);
 
 t_mat4				mul_mat4(t_mat4 a, t_mat4 b);
 t_mat4				mul_mat4_1(t_mat4 a, t_float b);
@@ -311,7 +311,6 @@ void				frame_del(t_frame **frame);
 void				draw_line(t_vertex a, t_vertex b, t_shader s, t_frame *f);
 void				gl_lines(t_list *v, t_shader s, t_frame *f);
 void				gl_line_strip(t_list *verts, t_shader shader, t_frame *f);
-
 
 int					encode(t_float r, t_float g, t_float b);
 int					encode_vec3(t_vec3 color);

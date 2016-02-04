@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 12:31:54 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/03 18:32:32 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 22:45:02 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,19 @@
 # include <string.h>
 # include "fred_gl.h"
 
-typedef	struct		s_param
-{
-	t_vec2		res;
-	char		*file;
-}					t_param;
+# define MLX_CORE	0
+# define MLX_WINDOW	1
+# define MLX_FRAME	2
+# define F_RES		3
+# define F_FILEPTR	4
+# define F_MAPPTR	5
+# define C_TRANS	6
+# define C_ANGLS	7
+# define C_HEIGHT	8
+# define C_ZOOM		9
+
+# define GV(i)		(*var(i))
+# define SV(i, val)	(*var(i) = (t_type)(val))
 
 typedef	struct		s_map
 {
@@ -28,10 +36,6 @@ typedef	struct		s_map
 	t_list		*cur;
 }					t_map;
 
-extern void			*g_mlx_core;
-extern void			*g_mlx_window_main;
-extern t_mat4		g_camera;
-
 void				puterr(int colored, char *text);
 t_map				map_to_vert_buff(t_list *map);
 t_list				*get_map_data(char *file);
@@ -39,9 +43,15 @@ t_list				*ft_str_split_lst(const char *src, const char div);
 int					pass_shader(t_shader_info i);
 int					funky_height_shader(t_shader_info i);
 int					funky_sphere_shader(t_shader_info i);
+int					palette_height(t_shader_info i);
 
 t_map				map(t_vec4 dims);
 t_vertex			get_vertex(t_map map, size_t x, size_t y);
 void				set_vertex(t_map map, size_t x, size_t y, t_vertex v);
+
+void				init_verts(t_map *b);
+
+t_type				*var(int i);
+void				init_controls(t_vec2 map);
 
 #endif

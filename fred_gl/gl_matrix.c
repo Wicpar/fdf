@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/14 11:28:32 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/01 19:11:27 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 20:48:34 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "libft.h"
 #include <stdlib.h>
 
-
-#include <stdio.h>
 static t_list	**mats(int mat)
 {
 	static t_list	*mats[2] = {0, 0};
@@ -46,7 +44,6 @@ int				gl_matrix_mode(int mat_mode)
 
 	if (mat_mode > -1)
 		mode = CLAMP(mat_mode, 0, 1);
-	//ft_print_memory(mats(0), sizeof(void*) * 2);
 	return (mode);
 }
 
@@ -55,7 +52,6 @@ t_vertex		gl_transform(t_vertex v)
 	size_t	i;
 	t_list	*tmp;
 
-	//printf("1: %f\n", v.pos.z);
 	i = -1;
 	while (++i < 2)
 	{
@@ -66,6 +62,5 @@ t_vertex		gl_transform(t_vertex v)
 			tmp = tmp->next;
 		}
 	}
-	//printf("2: %f\n", v.pos.z);
 	return (v);
 }

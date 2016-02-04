@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 16:04:36 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/02 19:58:53 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 20:47:00 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,30 +69,29 @@ void		frame_put_pixel(t_frame *f, t_vertex v, t_shader shader)
 
 void		frame_print(t_frame *f)
 {
-	size_t	x;
-	size_t	y;
+	size_t	i[2];
 	char	drawn;
 	int		color;
-	
-	y = -1;
-	while (++y < f->h)
+
+	i[1] = -1;
+	while (++i[1] < f->h)
 	{
-		x = -1;
-		while (++x < f->w)
+		i[0] = -1;
+		while (++i[0] < f->w)
 		{
-			color = buf_read(f->img, x, y).i;
-			drawn = buf_read(f->change, x, y).c;
+			color = buf_read(f->img, i[0], i[1]).i;
+			drawn = buf_read(f->change, i[0], i[1]).c;
 			if (drawn || !f->clear_undrawn)
-				get_instance()->drawfn(x, y, color);
+				get_instance()->drawfn(i[0], i[1], color);
 			else if (f->clear_undrawn && color)
 			{
-				get_instance()->drawfn(x, y, 0);
-				buf_write(f->img, x, y, T(0));
+				get_instance()->drawfn(i[0], i[1], 0);
+				buf_write(f->img, i[0], i[1], T(0));
 			}
 			if (f->clear_undrawn)
-				buf_write(f->change, x, y, T(0));
+				buf_write(f->change, i[0], i[1], T(0));
 			if (f->depth_func)
-				buf_write(f->depth, x, y, T((t_float)10.));
+				buf_write(f->depth, i[0], i[1], T((t_float)10.));
 		}
 	}
 }

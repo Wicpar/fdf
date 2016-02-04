@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 11:40:11 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/03 17:56:37 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 20:42:06 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_list		*get_map_data(char *file)
 	t_list	*cur;
 	char	*tmp;
 	int		fd;
+
 	new = 0;
 	fd = open(file, O_RDONLY);
 	while (get_next_line(fd, &tmp) > 0)
@@ -79,7 +80,6 @@ t_vertex	str_vert(t_vec4 pos, char *str, t_map buffer, t_vec2 *h)
 	i = -1;
 	if (buf[1] && buf[1][0] == '0' && buf[1][1] == 'x')
 	{
-
 		new.attributes[0].value =
 			(t_type)decode(ft_atoi_base(&(buf[1][2]), "0123456789ABCDEF"));
 		new.attributes[0].interpolation = VEC4;
@@ -100,21 +100,21 @@ t_map		map_to_vert_buff(t_list *m)
 
 	dim = get_map_dim(m);
 	new = map(dim);
-	dim = vec4(0, 0, 0, 0);
 	tmp[0] = m;
 	while (tmp[0])
 	{
+		dim.y = ((tmp[0] == m) ? 0 : dim.y + 1);
 		tmp[1] = *((t_list**)(tmp[0]->content));
 		tmp[2] = tmp[1];
 		dim.x = 0;
 		while (tmp[1])
 		{
-			set_vertex(new, dim.x, dim.y, str_vert(dim, (char*)(tmp[1]->content), new, &(new.height)));
+			set_vertex(new, dim.x, dim.y,
+				str_vert(dim, (char*)(tmp[1]->content), new, &(new.height)));
 			dim.x++;
 			tmp[1] = tmp[1]->next;
 		}
 		ft_lstdel(&(tmp[2]), &ft_lstfree_ptr);
-		dim.y++;
 		tmp[0] = tmp[0]->next;
 	}
 	ft_lstdel(&(m), &empty);

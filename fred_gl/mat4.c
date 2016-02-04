@@ -6,7 +6,7 @@
 /*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/09 12:02:27 by fnieto            #+#    #+#             */
-/*   Updated: 2016/02/01 23:46:48 by fnieto           ###   ########.fr       */
+/*   Updated: 2016/02/04 22:28:29 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ t_mat4		mat4(t_vec4 r1, t_vec4 r2, t_vec4 r3, t_vec4 r4)
 t_mat4		mat4_identity(void)
 {
 	static const t_mat4	identity = {
-		1., 0., 0., 0.,
-		0., 1., 0., 0.,
-		0., 0., 1., 0.,
-		0., 0., 0., 1.};
 
+	1., 0., 0., 0.,
+	0., 1., 0., 0.,
+	0., 0., 1., 0.,
+	0., 0., 0., 1.};
 	return (identity);
 }
 
@@ -69,18 +69,18 @@ t_mat4		mat4_translation(t_vec3 translation)
 	return (new);
 }
 
-t_mat4		mat4_rotation(t_float rotx, t_float roty, t_float rotz)
+t_mat4		mat4_rotation(t_vec3 rot)
 {
 	t_mat4	new;
 	t_float	v[6];
 
 	new = mat4_identity();
-	v[0] = cos(rotx);
-	v[1] = sin(rotx);
-	v[2] = cos(roty);
-	v[3] = sin(roty);
-	v[4] = cos(rotz);
-	v[5] = sin(rotz);
+	v[0] = cos(rot.x);
+	v[1] = sin(rot.x);
+	v[2] = cos(rot.y);
+	v[3] = sin(rot.y);
+	v[4] = cos(rot.z);
+	v[5] = sin(rot.z);
 	new.m20 = v[3];
 	new.m21 = -v[1] * v[2];
 	new.m22 = v[0] * v[2];
